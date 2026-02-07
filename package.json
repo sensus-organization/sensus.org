@@ -1,0 +1,32 @@
+{
+  "name": "sensus-website-frontend",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "1.13.0",
+    "@nuxt/fonts": "^0.13.0",
+    "@nuxt/image": "2.0.0",
+    "@nuxt/ui": "4.4.0",
+    "@types/leaflet": "^1.9.21",
+    "@vueuse/core": "^14.1.0",
+    "eslint": "^9.0.0",
+    "gsap": "^3.14.2",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
+    "nuxt": "^4.3.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3",
+    "vue": "^3.5.27",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "generate-license-file": "^4.1.1"
+  }
+}
