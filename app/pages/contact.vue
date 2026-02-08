@@ -232,14 +232,14 @@ useHead({
                 <p class="text-center text-sm text-sensus-gray-500">
                     Developed by
                     <a
-                        href="https://www.linkedin.com/in/kacper-golik/"
+                        href="https://golik.dev"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-sensus-red hover:underline font-medium"
                         >Kacper Golik</a
                     >, desgined by
                     <a
-                        href="https://www.linkedin.com/in/kacper-golik/"
+                        href="https://www.linkedin.com/in/j-mosawi-07a63939a/"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-sensus-red hover:underline font-medium"
@@ -247,7 +247,7 @@ useHead({
                     >
                     and
                     <a
-                        href="https://www.linkedin.com/in/kacper-golik/"
+                        href="https://www.linkedin.com/in/yanhang-luo-065b0a397/"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-sensus-red hover:underline font-medium"

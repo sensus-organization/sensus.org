@@ -107,7 +107,7 @@ export const departments: PersonGroup[] = [
             {
                 name: "Fidan Aghazada",
                 image: "https://cdn.sensus.org/assets/people/organization/fidan.webp",
-                link: "",
+                link: "http://www.linkedin.com/in/fidan-aghazada-895a283ab/",
             },
             {
                 name: "Rahma Doush",
