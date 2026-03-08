@@ -237,11 +237,8 @@ watch(
             <div class="max-w-7xl mx-auto px-6 py-6">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-sensus-gray-500">
                     <div class="flex items-center gap-6">
-                        <NuxtLink to="/assets/docs/privacy.pdf" target="_blank" class="hover:text-sensus-red transition-colors">
-                            Privacy Policy
-                        </NuxtLink>
-                        <NuxtLink to="/assets/docs/regulations.pdf" target="_blank" class="hover:text-sensus-red transition-colors">
-                            Regulations
+                        <NuxtLink to="/regulations" class="hover:text-sensus-red transition-colors">
+                            Regulations & Privacy Policy
                         </NuxtLink>
                         <NuxtLink
                             v-if="$route.path === '/contact'"
