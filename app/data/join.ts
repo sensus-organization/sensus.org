@@ -234,6 +234,21 @@ export const memberPageData = {
         description:
             "Below you will find different departments that you can join in our organization. Each of them has their own tasks and challenges.",
     },
+    joinPaths: {
+        description:
+            'SensUs is both a TU/e <a href="https://educationguide.tue.nl/programs/honors-academy/bachelor-students/honors-tracks/sensus-competition" target="_blank" rel="noopener noreferrer">Honors Academy</a> track and a student team in TU/e <a href="https://www.tue.nl/en/our-university/tue-student-teams/student-teams" target="_blank" rel="noopener noreferrer">innovationSpace</a>. TU/e students can join in two ways. Joining via Honors Academy means you\'re automatically part of both HA and the student team (no need to apply separately).',
+        items: [
+            {
+                title: "Join via Honors Academy",
+                applyLink:
+                    "https://forms.office.com/Pages/ResponsePage.aspx?id=R_J9zM5gD0qddXBM9g78ZNFc7X3dZc1NvyfXBh-Rg1NUQjVJWlhKM1JUTTQwWkJLUkJWU1dXMUYzMSQlQCN0PWcu&b2b=true",
+            },
+            {
+                title: "Join the Student Team",
+                applyLink: "https://forms.sensus.org/s/cmlkug7cl001dln1xg5qyxixl",
+            },
+        ],
+    },
     introText: [
         "In addition to these departments, there are several smaller projects that you can join, to innovate more within SensUs. Think for example of organizing a fun kick-off event, working on the future of SensUs or arranging a small competition for high school students!",
         "This is what makes SensUs unique. You can choose your own challenges, your own tasks and shape your own development. We create an innovative environment within the organization to let you explore your interests.",

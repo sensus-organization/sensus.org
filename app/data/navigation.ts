@@ -58,6 +58,11 @@ export const headerNavigation: NavigationItem[] = [
                 external: true,
                 icon: "i-heroicons-camera",
             },
+            {
+                label: "Regulations",
+                to: "/regulations",
+                icon: "i-heroicons-document-text",
+            },
         ],
     },
     { label: "Partners", to: "/partners", icon: "i-heroicons-briefcase" },

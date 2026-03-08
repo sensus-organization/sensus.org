@@ -37,16 +37,27 @@ useHead({
                 </p>
             </div>
 
-            <div class="prose prose-lg prose-sensus max-w-none text-sensus-gray-700 leading-relaxed mb-16">
-                <p
-                    v-for="(text, index) in pageData.introText"
-                    :key="index"
-                    :class="{
-                        'font-semibold text-sensus-gray-900': index === 1,
-                    }"
-                >
-                    {{ text }}
-                </p>
+            <div class="mb-16">
+                <p class="text-sensus-gray-700 text-lg text-center max-w-3xl mx-auto mb-8 [&_a]:text-sensus-red [&_a]:font-medium [&_a]:underline" v-html="pageData.joinPaths.description" />
+                <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                    <div
+                        v-for="item in pageData.joinPaths.items"
+                        :key="item.title"
+                        class="bg-sensus-gray-50 rounded-2xl border border-sensus-gray-200 p-6 text-center"
+                    >
+                        <h3 class="text-xl font-bold text-sensus-gray-900 mb-4">
+                            {{ item.title }}
+                        </h3>
+                        <a
+                            :href="item.applyLink"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn-primary inline-block"
+                        >
+                            Apply Now
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="space-y-8">
@@ -222,6 +233,18 @@ useHead({
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="prose prose-lg prose-sensus max-w-none text-sensus-gray-700 leading-relaxed mt-16">
+                <p
+                    v-for="(text, index) in pageData.introText"
+                    :key="index"
+                    :class="{
+                        'font-semibold text-sensus-gray-900': index === 1,
+                    }"
+                >
+                    {{ text }}
+                </p>
             </div>
 
             <div class="mt-12">
