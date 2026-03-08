@@ -1,4 +1,8 @@
 export const contactPageData = {
+    meta: {
+        title: "SensUs | Contact",
+        description: "Get in touch with SensUs - the annual international student competition on biosensors for health.",
+    },
     header: {
         title: "Get in Touch",
         subtitle: "We'd love to hear from you. Here's how you can reach us.",

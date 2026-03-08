@@ -4,11 +4,11 @@ import { contactPageData } from "~/data/pages";
 const pageContent = contactPageData;
 
 useHead({
-    title: pageContent.header.title,
+    title: pageContent.meta.title,
     meta: [
         {
             name: "description",
-            content: pageContent.header.subtitle,
+            content: pageContent.meta.description,
         },
     ],
 });
