@@ -3,10 +3,7 @@ import type { Team } from "~/data/types";
 import { teamsHeader, teams } from "~/data/teams";
 
 const teamsData = {
-    header: {
-        ...teamsHeader,
-        notice: "Teams for SensUs 2026 will be announced soon. Below are the participating teams from SensUs 2025.",
-    },
+    header: teamsHeader,
     teams: [...teams].sort((a, b) => a.name.localeCompare(b.name)),
 };
 
@@ -52,24 +49,6 @@ onMounted(() => {
                     Every year, student teams from universities around the world compete in SensUs to develop innovative biosensor
                     solutions. Click on any team to learn more about them.
                 </p>
-            </div>
-
-            <div class="mb-12 max-w-3xl mx-auto">
-                <div class="bg-sensus-blue/5 border border-sensus-blue/20 rounded-2xl p-5 flex items-start gap-4">
-                    <div class="flex-shrink-0 w-10 h-10 bg-sensus-blue/10 rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5 text-sensus-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                        </svg>
-                    </div>
-                    <p class="text-sensus-gray-700 leading-relaxed">
-                        {{ teamsData.header.notice }}
-                    </p>
-                </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
