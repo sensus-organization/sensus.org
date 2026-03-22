@@ -14,34 +14,34 @@ export const partners: Partner[] = [
         url: "https://demcon.com",
     },
     {
+        name: "Eindhoven University Fund",
+        logo: "https://cdn.sensus.org/branding/partners/ufe.jpg",
+        url: "https://ufe.tue.nl/en/",
+    },
+    {
+        name: "Molex",
+        logo: "https://cdn.sensus.org/branding/partners/molex.webp",
+        url: "https://www.molex.com/",
+    },
+    {
         name: "PalmSens",
         logo: "https://cdn.sensus.org/branding/partners/palmsense.png",
         url: "https://www.palmsens.com",
     },
     {
-        name: "Metyos",
-        logo: "https://cdn.sensus.org/branding/partners/metyos.png",
-        url: "https://metyos.com",
+        name: "PhotonDelta",
+        logo: "https://cdn.sensus.org/branding/partners/photondelta.webp",
+        url: "https://www.photondelta.com/",
     },
     {
-        name: "CSEM",
-        logo: "https://cdn.sensus.org/branding/partners/csem.png",
-        url: "https://www.csem.ch",
+        name: "PhotonJobs",
+        logo: "https://cdn.sensus.org/branding/partners/photonjobs.png",
+        url: "https://www.photonjobs.nl/",
     },
     {
         name: "TU/e",
         logo: "https://cdn.sensus.org/branding/partners/tue.png",
         url: "https://www.tue.nl",
-    },
-    {
-        name: "Eindhoven University Fund",
-        logo: "https://cdn.sensus.org/branding/partners/ufe.jpg",
-        url: "https://www.tue.nl/en/our-university/about-the-university/eindhoven-university-fund",
-    },
-    {
-        name: "PhotonJobs",
-        logo: "https://cdn.sensus.org/branding/partners/photonjobs.png",
-        url: "https://photonjobs.eu",
     },
 ];
 
@@ -81,11 +81,6 @@ export const affiliates: Partner[] = [
 
 export const partnerCarouselLogos: Partner[] = [
     {
-        name: "CSEM",
-        logo: "https://cdn.sensus.org/branding/partners/csem.png",
-        url: "",
-    },
-    {
         name: "TU/e",
         logo: "https://cdn.sensus.org/branding/partners/tue.png",
         url: "",
@@ -101,8 +96,13 @@ export const partnerCarouselLogos: Partner[] = [
         url: "",
     },
     {
-        name: "Metyos",
-        logo: "https://cdn.sensus.org/branding/partners/metyos.png",
+        name: "PhotonDelta",
+        logo: "https://cdn.sensus.org/branding/partners/photondelta.webp",
+        url: "",
+    },
+    {
+        name: "Molex",
+        logo: "https://cdn.sensus.org/branding/partners/molex.webp",
         url: "",
     },
     {

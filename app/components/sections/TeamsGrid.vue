@@ -7,7 +7,7 @@ const teamsData = {
         ...teamsHeader,
         notice: "Teams for SensUs 2026 will be announced soon. Below are the participating teams from SensUs 2025.",
     },
-    teams,
+    teams: [...teams].sort((a, b) => a.name.localeCompare(b.name)),
 };
 
 const selectedTeam = ref<Team | null>(null);
@@ -80,8 +80,9 @@ onMounted(() => {
                     class="group bg-white rounded-2xl border border-sensus-gray-200 shadow-sm overflow-hidden hover:border-sensus-red/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left cursor-pointer"
                     @click="openModal(team)"
                 >
-                    <div class="relative aspect-[3/2] overflow-hidden">
+                    <div class="relative aspect-[3/2] overflow-hidden" :class="team.image ? '' : 'bg-white'">
                         <img
+                            v-if="team.image"
                             :src="team.image"
                             :alt="team.name"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -132,8 +133,13 @@ onMounted(() => {
                         class="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden cursor-pointer"
                         @click="closeModal"
                     >
-                        <div class="relative aspect-[16/9] overflow-hidden">
-                            <img :src="selectedTeam.image" :alt="selectedTeam.name" class="w-full h-full object-cover" />
+                        <div class="relative overflow-hidden" :class="selectedTeam.image ? 'bg-sensus-gray-900' : 'bg-white h-48'">
+                            <img
+                                v-if="selectedTeam.image"
+                                :src="selectedTeam.image"
+                                :alt="selectedTeam.name"
+                                class="w-full max-h-[50vh] object-contain"
+                            />
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                             <div class="absolute bottom-6 left-6 right-6">
                                 <span
