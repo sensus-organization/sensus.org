@@ -74,7 +74,7 @@ onMounted(() => {
                         :key="`${partner.name}-${index}`"
                         class="flex items-center justify-center px-8 md:px-12 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
                     >
-                        <img :src="partner.logo" :alt="partner.name" class="max-h-16 md:max-h-20 w-auto object-contain" />
+                        <img :src="partner.logo" :alt="partner.name" class="max-h-16 md:max-h-20 max-w-40 md:max-w-48 w-auto object-contain" />
                     </div>
                 </div>
             </div>
