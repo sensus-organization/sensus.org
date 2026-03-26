@@ -88,6 +88,7 @@ export const departments: PersonGroup[] = [
             {
                 name: "Elena Đukić",
                 image: "https://cdn.sensus.org/assets/people/organization/elena.webp",
+                link: "https://www.linkedin.com/in/elena-djukic-57ba23343/",
             },
             {
                 name: "Manasi Vaidyanathan",
