@@ -29,11 +29,20 @@ function closeDropdowns() {
                             <NuxtLink
                                 v-if="!item.children"
                                 :to="item.to"
-                                class="px-3 py-2 rounded-lg text-sm font-semibold text-sensus-gray-700 hover:text-sensus-red hover:bg-sensus-gray-100 transition-colors flex items-center gap-1.5"
-                                active-class="!bg-sensus-red !text-white"
+                                class="relative px-3 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5"
+                                :class="item.badge
+                                    ? 'text-sensus-red border-2 border-sensus-red/30 hover:bg-sensus-red/5'
+                                    : 'text-sensus-gray-700 hover:text-sensus-red hover:bg-sensus-gray-100'"
+                                active-class="!bg-sensus-red !text-white !border-sensus-red"
                             >
                                 <UIcon v-if="item.icon" :name="item.icon" class="w-5 h-5" />
                                 {{ item.label }}
+                                <span
+                                    v-if="item.badge"
+                                    class="absolute -top-2.5 -right-3 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-sensus-red text-white rounded-full leading-none ring-2 ring-white"
+                                >
+                                    {{ item.badge }}
+                                </span>
                             </NuxtLink>
 
                             <div v-else class="relative" @mouseenter="activeDropdown = item.label" @mouseleave="closeDropdowns">
@@ -147,6 +156,12 @@ function closeDropdowns() {
                                 <div class="flex items-center gap-3">
                                     <UIcon v-if="item.icon" :name="item.icon" class="w-5 h-5 opacity-60" />
                                     {{ item.label }}
+                                    <span
+                                        v-if="item.badge"
+                                        class="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-sensus-red text-white rounded-full leading-none"
+                                    >
+                                        {{ item.badge }}
+                                    </span>
                                 </div>
                             </NuxtLink>
 

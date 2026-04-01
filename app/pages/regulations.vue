@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: "Regulations",
+    title: "SensUs | Regulations",
     meta: [
         {
             name: "description",

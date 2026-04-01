@@ -26,3 +26,4 @@ logs
 # Markdown (except README)
 *.md
 !README.md
+tmp

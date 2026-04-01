@@ -88,6 +88,7 @@ export interface NavigationItem {
     to?: string;
     icon?: string;
     external?: boolean;
+    badge?: string;
     children?: NavigationItem[];
 }
 
@@ -135,4 +136,36 @@ export interface PageHeroData {
     title: HighlightedText;
     subtitle?: string;
     image: string;
+}
+
+export interface EventScheduleItem {
+    time: string;
+    description: string;
+    highlight?: boolean;
+}
+
+export interface EventPageData {
+    meta: PageMeta;
+    hero: PageHeroData;
+    intro: {
+        label: string;
+        title: HighlightedText;
+        description: string;
+    };
+    content: StrapiBlocks;
+    schedule?: EventScheduleItem[];
+    participationFees?: {
+        label: string;
+        options: { amount: string; url: string }[];
+        note: string;
+    };
+    donationUrl?: string;
+    contactEmail?: string;
+    cta: {
+        title: string;
+        description?: string;
+        buttonText: string;
+        to?: string;
+        href?: string;
+    };
 }

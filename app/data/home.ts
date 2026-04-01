@@ -16,9 +16,9 @@ export const heroData = {
             variant: "primary",
         },
         {
-            label: "Watch Kick-Off Event",
-            href: "https://www.youtube.com/watch?v=KqFEkOY8_Lw",
-            icon: "play",
+            label: "Parkinson's Fund Run",
+            to: "/events/fund-run-2026",
+            icon: "heart",
             variant: "glass",
         },
         {

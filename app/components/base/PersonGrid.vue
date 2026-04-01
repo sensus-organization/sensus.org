@@ -35,15 +35,26 @@ const textSize = computed(() => {
     if (props.size === "md") return { name: "text-lg", role: "text-sm", affiliation: "text-sm" };
     return { name: "text-lg", role: "text-sm", affiliation: "text-sm" };
 });
+
+const cols = 5;
+const lastRowStart = computed(() => {
+    const total = props.people.length;
+    const remainder = total % cols;
+    if (remainder === 1 && total > cols) return total - 2;
+    return -1;
+});
 </script>
 
 <template>
     <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-        <div
-            v-for="person in people"
-            :key="person.name"
-            :class="['w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-1rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)]', maxWidth]"
-        >
+        <template v-for="(person, index) in people" :key="person.name">
+            <div v-if="index === lastRowStart" class="hidden lg:block basis-full h-0" aria-hidden="true" />
+            <div
+                :class="[
+                    'w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-1rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)]',
+                    maxWidth,
+                ]"
+            >
             <component
                 :is="person.link ? 'a' : 'div'"
                 :href="person.link"
@@ -78,6 +89,7 @@ const textSize = computed(() => {
                     </p>
                 </div>
             </component>
-        </div>
+            </div>
+        </template>
     </div>
 </template>

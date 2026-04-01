@@ -3,3 +3,4 @@ export { theme2026PageData, highSchoolsPageData, teamsPageData, juryPageData, ar
 export { joinIndexPageData, teamPageData, memberPageData, partnerPageData } from "./join";
 export { partnersPageData } from "./partners";
 export { contactPageData } from "./contact";
+export { fundRunPageData } from "./events";

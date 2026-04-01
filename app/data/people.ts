@@ -95,6 +95,11 @@ export const departments: PersonGroup[] = [
                 image: "https://cdn.sensus.org/assets/people/organization/manasi.webp",
                 link: "https://www.linkedin.com/in/manasi-vaidyanathan-66b4b62ba/",
             },
+            {
+                name: "Maria Visan",
+                image: "https://cdn.sensus.org/assets/people/organization/maria.webp",
+                link: "https://www.linkedin.com/in/maria-visan-787633366/",
+            },
         ],
     },
     {
@@ -147,7 +152,7 @@ export const departments: PersonGroup[] = [
             },
             {
                 name: "Maria Francesca Paraschiv",
-                image: "https://cdn.sensus.org/assets/people/organization/maria.webp",
+                image: "https://cdn.sensus.org/assets/people/organization/francesca.webp",
                 link: "https://www.linkedin.com/in/maria-francesca-paraschiv/",
             },
             {
