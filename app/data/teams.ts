@@ -25,8 +25,8 @@ export const teams: Team[] = [
         name: "JUSTParkenSens",
         university: "E-JUST University",
         country: "Egypt",
-        image: "",
-        description: "Participant of SensUs 2026.",
+        image: "https://cdn.sensus.org/assets/people/teams/2026/justparkensens.webp",
+        description: "We are a multidisciplinary engineering team from Egypt-Japan University of Science and Technology (E-JUST), united by a shared passion for developing innovative healthcare technologies. Our team combines expertise in biomedical engineering, electronics, and computational modeling to address real clinical challenges in neurodegenerative disease monitoring. Through our project, we aim to design a wearable biosensing system for continuous levodopa monitoring in interstitial fluid, supporting improved management of Parkinson’s disease. Our ambition is to bridge the gap between advanced biosensor research and practical wearable healthcare solutions by integrating selective molecular recognition and electrochemical sensing. We are motivated by the impact of early, accurate, and real-time drug monitoring. In SensUs, we aim not only to develop a functional prototype but also to demonstrate a scalable and clinically meaningful approach to personalized Parkinson’s therapy.",
     },
     {
         name: "DeTectUs",
