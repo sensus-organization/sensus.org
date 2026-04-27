@@ -60,8 +60,8 @@ export const teams: Team[] = [
         name: "A-levo",
         university: "McGill University",
         country: "Canada",
-        image: "",
-        description: "Participant of SensUs 2026.",
+        image: "https://cdn.sensus.org/assets/people/teams/2026/alevo.webp",
+        description: "We are A-Levo, a multidisciplinary student team from McGill University dedicated to improving the lives of people living with Parkinson’s disease. Our work focuses on developing a wearable biosensor that can continuously monitor levodopa levels, helping make treatment more personalized, precise, and responsive. We believe great healthcare innovation happens when science, engineering, and human-centered design come together. That is the ambition behind our creative work: to turn cutting-edge research into practical tools that support patients, caregivers, and clinicians in everyday life. Through SensUs, we hope to share our vision, learn from other innovators, and bring us one step closer to a future where Parkinson’s care is smarter, more accessible, and more empowering.",
     },
     {
         name: "UCTeam",
