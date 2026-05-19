@@ -21,12 +21,12 @@ export const heroData = {
             icon: "heart",
             variant: "glass",
         },
-        {
-            label: "We Are Recruiting!",
-            to: "/join/member",
-            icon: "users",
-            variant: "glass",
-        },
+        // {
+        //     label: "We Are Recruiting!",
+        //     to: "/join/member",
+        //     icon: "users",
+        //     variant: "glass",
+        // },
     ] as HeroButton[],
 };
 
