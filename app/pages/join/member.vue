@@ -37,7 +37,7 @@ useHead({
                 </p>
             </div>
 
-            <div class="mb-16">
+            <!-- <div class="mb-16">
                 <p class="text-sensus-gray-700 text-lg text-center max-w-3xl mx-auto mb-8 [&_a]:text-sensus-red [&_a]:font-medium [&_a]:underline" v-html="pageData.joinPaths.description" />
                 <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
                     <div
@@ -58,7 +58,7 @@ useHead({
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="space-y-8">
                 <div
