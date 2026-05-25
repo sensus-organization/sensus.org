@@ -46,6 +46,18 @@ useHead({
                     {{ pageData.comingSoon.description }}
                 </p>
 
+                <p class="text-sensus-gray-600 text-base max-w-xl mx-auto mb-10">
+                    {{ pageData.comingSoon.legacyNotice.text }}
+                    <a
+                        :href="pageData.comingSoon.legacyNotice.href"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sensus-teal font-semibold hover:underline"
+                    >
+                        {{ pageData.comingSoon.legacyNotice.linkText }}</a
+                    >.
+                </p>
+
                 <div class="flex items-center justify-center gap-2 mb-12">
                     <div class="w-2 h-2 rounded-full bg-sensus-red animate-pulse" />
                     <div class="w-2 h-2 rounded-full bg-sensus-teal animate-pulse" style="animation-delay: 0.2s" />

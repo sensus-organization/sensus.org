@@ -156,6 +156,11 @@ export const archivePageData = {
         title: { text: "Coming Soon", highlight: "Soon" },
         description:
             "We're currently working on bringing you a comprehensive archive of past SensUs competitions, themes, and winning teams. Check back soon!",
+        legacyNotice: {
+            text: "In the meantime, the old archive is still accessible at",
+            linkText: "old.sensus.org/archive/TRD-archive",
+            href: "https://old.sensus.org/archive/TRD-archive",
+        },
         buttons: [
             { text: "View Current Theme", to: "/competition/theme-2026" },
             { text: "View Participating Teams", to: "/competition/teams" },
