@@ -16,9 +16,9 @@ export const heroData = {
             variant: "primary",
         },
         {
-            label: "Parkinson's Fund Run",
-            to: "/events/fund-run-2026",
-            icon: "heart",
+            label: "SensUs Symposium 2026",
+            to: "/symposium",
+            icon: "microphone",
             variant: "glass",
         },
         // {

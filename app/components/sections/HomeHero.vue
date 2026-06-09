@@ -73,6 +73,14 @@ const heroButtons = heroData.buttons;
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                             />
                         </svg>
+                        <svg v-if="btn.icon === 'microphone'" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 11a7 7 0 01-14 0m7 7v3m0-3a4 4 0 01-4-4V7a4 4 0 118 0v4a4 4 0 01-4 4z"
+                            />
+                        </svg>
                         <svg v-if="btn.icon === 'users'" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path
                                 stroke-linecap="round"
