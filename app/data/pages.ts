@@ -4,3 +4,4 @@ export { joinIndexPageData, teamPageData, memberPageData, partnerPageData } from
 export { partnersPageData } from "./partners";
 export { contactPageData } from "./contact";
 export { fundRunPageData } from "./events";
+export { symposiumPageData } from "./symposium";

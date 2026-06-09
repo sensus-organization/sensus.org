@@ -68,10 +68,10 @@ export const headerNavigation: NavigationItem[] = [
     { label: "Partners", to: "/partners", icon: "i-heroicons-briefcase" },
     { label: "Contact", to: "/contact", icon: "i-heroicons-envelope" },
     {
-        label: "Fund Run",
-        to: "/events/fund-run-2026",
-        icon: "i-heroicons-heart",
-        badge: "Apr 29",
+        label: "Symposium",
+        to: "/symposium",
+        icon: "i-heroicons-microphone",
+        badge: "Aug 25",
     },
 ];
 
