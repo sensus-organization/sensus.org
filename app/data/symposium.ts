@@ -17,7 +17,13 @@ export interface SymposiumPageData {
         title: string;
         description: string;
         formUrl: string;
-        archiveUrl: string;
+    };
+    archive: {
+        description: string;
+        editions: {
+            label: string;
+            url: string;
+        }[];
     };
 }
 
@@ -44,7 +50,7 @@ export const symposiumPageData: SymposiumPageData = {
             "Levodopa remains the cornerstone of Parkinson's disease treatment, yet its effects are often unpredictable. This symposium brings together patients, clinicians, and researchers to explore how we can finally make these hidden dynamics visible - from lived experience to real-time monitoring.",
     },
     poster: {
-        image: "https://cdn.sensus.org/assets/symposium_poster-2026-v2.webp",
+        image: "https://cdn.sensus.org/assets/symposium_poster-2026-v3.webp",
         alt: "Third International Symposium on Continuous Real-Time Biomolecular Sensing - speakers, topics, and programme details for 25 August 2026",
     },
     content: [
@@ -256,8 +262,21 @@ export const symposiumPageData: SymposiumPageData = {
     cta: {
         title: "Join Us in Eindhoven or Online",
         description:
-            "Register to attend the symposium, or revisit last year's edition to see what to expect.",
+            "Register now to attend the symposium on-site at TU Eindhoven or online. Participation is free of charge.",
         formUrl: "https://forms.sensus.org/s/o4x5a7leuxa7mdth8320caya",
-        archiveUrl: "https://symposium.sensus.org/",
+    },
+    archive: {
+        description:
+            "View the program booklets and the recordings of the previous CRBS editions.",
+        editions: [
+            {
+                label: "2025 Edition",
+                url: "https://symposium.sensus.org/",
+            },
+            {
+                label: "2024 Edition",
+                url: "https://symposium.sensus.org/first-international-symposium-on-continuous-real-time-biomolecular-sensing/",
+            },
+        ],
     },
 };

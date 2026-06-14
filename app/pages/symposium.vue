@@ -54,7 +54,7 @@ useHead({
                     <p class="text-sensus-gray-600 text-lg mb-8 leading-relaxed">
                         {{ pageData.cta.description }}
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <div class="flex justify-center">
                         <a
                             :href="pageData.cta.formUrl"
                             target="_blank"
@@ -71,22 +71,32 @@ useHead({
                             </svg>
                             Register Now
                         </a>
-                        <a
-                            :href="pageData.cta.archiveUrl"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="btn-secondary inline-flex items-center justify-center gap-2"
-                        >
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                            View Previous Editions
-                        </a>
+                    </div>
+
+                    <div class="border-t border-sensus-gray-200 mt-10 pt-8">
+                        <p class="text-sensus-gray-600 mb-6 leading-relaxed">
+                            {{ pageData.archive.description }}
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a
+                                v-for="edition in pageData.archive.editions"
+                                :key="edition.url"
+                                :href="edition.url"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-secondary inline-flex items-center justify-center gap-2"
+                            >
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                {{ edition.label }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
