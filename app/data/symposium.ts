@@ -181,13 +181,6 @@ export const symposiumPageData: SymposiumPageData = {
                 {
                     type: "list-item",
                     children: [
-                        { type: "text", text: "Dr. Irene Litvan", bold: true },
-                        { type: "text", text: " - University of California, San Diego, USA" },
-                    ],
-                },
-                {
-                    type: "list-item",
-                    children: [
                         { type: "text", text: "Dr. Joseph Wang", bold: true },
                         { type: "text", text: " - University of California, San Diego, USA" },
                     ],
