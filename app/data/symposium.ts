@@ -256,7 +256,7 @@ export const symposiumPageData: SymposiumPageData = {
         title: "Join Us in Eindhoven or Online",
         description:
             "Register now to attend the symposium on-site at TU Eindhoven or online. Participation is free of charge.",
-        formUrl: "https://forms.sensus.org/s/o4x5a7leuxa7mdth8320caya",
+        formUrl: "https://www.eventbrite.nl/e/third-international-symposium-on-continuous-real-time-bimolecular-sensing-tickets-1991995171180",
     },
     archive: {
         description:
