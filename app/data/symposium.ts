@@ -211,7 +211,7 @@ export const symposiumPageData: SymposiumPageData = {
             children: [
                 {
                     type: "text",
-                    text: "The symposium takes place on Tuesday, 25 August 2026 in a hybrid format - join us on-site at TU Eindhoven or virtually from anywhere in the world. To welcome our global audience, the live programme spans three time zones:",
+                    text: "The symposium takes place on Tuesday, 25 August 2026 in a hybrid format - join us on-site at TU Eindhoven (Atlas 0.820) or virtually from anywhere in the world. To welcome our global audience, the live programme spans three time zones:",
                 },
             ],
         },
