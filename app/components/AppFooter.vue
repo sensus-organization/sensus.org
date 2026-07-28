@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { socialLinks, addresses } from "~/data/navigation";
+import type { Global, AddressItem } from "~/types/strapi";
 
 if (import.meta.client) {
     gsap.registerPlugin(ScrollTrigger);
 }
 
+const global = useState<Global | null>("global");
+const socialLinks = computed(() => global.value?.socialLinks ?? []);
+const addresses = computed(() => global.value?.addresses ?? []);
+const legalLinks = computed(() => global.value?.legalLinks ?? []);
+const contactEmail = computed(() => global.value?.contactEmail ?? "");
+const donationUrl = computed(() => global.value?.donationUrl ?? "");
+
 const currentYear = new Date().getFullYear();
-const expandedAddress = ref<"organization" | "shipping">("organization");
+const activeAddress = ref(0);
+
+const addressLines = (address?: AddressItem) => (address?.lines ? address.lines.split("\n") : []);
+const isExternal = (url?: string | null) => /^(https?:|mailto:|\/assets\/)/.test(url || "");
 
 const footerRef = ref<HTMLElement | null>(null);
 
@@ -59,7 +69,10 @@ watch(
     <footer ref="footerRef" class="bg-sensus-gray-50">
         <div v-if="$route.path !== '/contact'" class="max-w-7xl mx-auto px-6 py-16">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="footer-card bg-white rounded-2xl p-5 shadow-sm border border-sensus-gray-200 flex flex-col min-h-[220px]">
+                <div
+                    v-if="addresses.length"
+                    class="footer-card bg-white rounded-2xl p-5 shadow-sm border border-sensus-gray-200 flex flex-col min-h-[220px]"
+                >
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-10 h-10 bg-sensus-red/10 rounded-xl flex items-center justify-center">
                             <svg class="w-5 h-5 text-sensus-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,47 +93,26 @@ watch(
                         <h3 class="font-semibold text-sensus-gray-900">Our Locations</h3>
                     </div>
 
-                    <div class="flex gap-2 mb-3">
+                    <div v-if="addresses.length > 1" class="flex gap-2 mb-3">
                         <button
+                            v-for="(address, index) in addresses"
+                            :key="index"
                             class="flex-1 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors"
                             :class="
-                                expandedAddress === 'organization'
+                                activeAddress === index
                                     ? 'bg-sensus-red text-white'
                                     : 'bg-sensus-gray-100 text-sensus-gray-600 hover:bg-sensus-gray-200'
                             "
-                            @click="expandedAddress = 'organization'"
+                            @click="activeAddress = index"
                         >
-                            Organization
-                        </button>
-                        <button
-                            class="flex-1 px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors"
-                            :class="
-                                expandedAddress === 'shipping'
-                                    ? 'bg-sensus-red text-white'
-                                    : 'bg-sensus-gray-100 text-sensus-gray-600 hover:bg-sensus-gray-200'
-                            "
-                            @click="expandedAddress = 'shipping'"
-                        >
-                            Shipping
+                            {{ address.label }}
                         </button>
                     </div>
 
-                    <div class="flex-1 relative">
-                        <address
-                            class="not-italic text-sensus-gray-600 text-sm leading-relaxed absolute inset-0 transition-opacity duration-200"
-                            :class="expandedAddress === 'organization' ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-                        >
-                            <span v-for="(line, i) in addresses.organization.lines" :key="i">
-                                {{ line }}<br v-if="i < addresses.organization.lines.length - 1" />
-                            </span>
-                        </address>
-
-                        <address
-                            class="not-italic text-sensus-gray-600 text-sm leading-relaxed absolute inset-0 transition-opacity duration-200"
-                            :class="expandedAddress === 'shipping' ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-                        >
-                            <span v-for="(line, i) in addresses.shipping.lines" :key="i">
-                                {{ line }}<br v-if="i < addresses.shipping.lines.length - 1" />
+                    <div class="flex-1">
+                        <address class="not-italic text-sensus-gray-600 text-sm leading-relaxed">
+                            <span v-for="(line, i) in addressLines(addresses[activeAddress])" :key="i">
+                                {{ line }}<br v-if="i < addressLines(addresses[activeAddress]).length - 1" />
                             </span>
                         </address>
                     </div>
@@ -141,10 +133,10 @@ watch(
                         <h3 class="font-semibold text-sensus-gray-900">Connect With Us</h3>
                     </div>
 
-                    <div class="mb-3">
+                    <div v-if="contactEmail" class="mb-3">
                         <p class="text-sm text-sensus-gray-600 mb-1">For all inquiries:</p>
                         <a
-                            href="mailto:contact@sensus.org"
+                            :href="`mailto:${contactEmail}`"
                             class="inline-flex items-center gap-2 text-sensus-red font-semibold hover:underline"
                         >
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,21 +147,21 @@ watch(
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                                 />
                             </svg>
-                            contact@sensus.org
+                            {{ contactEmail }}
                         </a>
                     </div>
 
-                    <div class="mt-auto">
+                    <div v-if="socialLinks.length" class="mt-auto">
                         <p class="text-sm text-sensus-gray-600 mb-2">Follow us:</p>
                         <div class="flex flex-wrap gap-2">
                             <a
                                 v-for="social in socialLinks"
                                 :key="social.icon"
-                                :href="social.href"
+                                :href="strapiLink(social.href)"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="w-10 h-10 rounded-xl bg-sensus-red hover:bg-sensus-red/80 flex items-center justify-center transition-colors"
-                                :aria-label="social.label"
+                                :aria-label="social.label || social.icon"
                             >
                                 <svg v-if="social.icon === 'facebook'" class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path
@@ -220,7 +212,8 @@ watch(
                     </p>
                     <div class="mt-auto">
                         <a
-                            href="https://donorbox.org/donation-to-sensus"
+                            v-if="donationUrl"
+                            :href="strapiLink(donationUrl)"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="block w-full bg-white text-sensus-red text-center py-2.5 rounded-xl text-sm font-semibold hover:bg-sensus-gray-100 transition-colors"
@@ -237,17 +230,20 @@ watch(
             <div class="max-w-7xl mx-auto px-6 py-6">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-sensus-gray-500">
                     <div class="flex items-center gap-6">
-                        <NuxtLink to="/regulations" class="hover:text-sensus-red transition-colors">
-                            Regulations & Privacy Policy
-                        </NuxtLink>
-                        <NuxtLink
-                            v-if="$route.path === '/contact'"
-                            to="/assets/docs/third-party-licenses.txt"
-                            target="_blank"
-                            class="hover:text-sensus-red transition-colors"
-                        >
-                            Third Party Licenses
-                        </NuxtLink>
+                        <template v-for="link in legalLinks" :key="link.url">
+                            <a
+                                v-if="isExternal(link.url)"
+                                :href="strapiLink(link.url)"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="hover:text-sensus-red transition-colors"
+                            >
+                                {{ link.label }}
+                            </a>
+                            <NuxtLink v-else :to="strapiLink(link.url)" class="hover:text-sensus-red transition-colors">
+                                {{ link.label }}
+                            </NuxtLink>
+                        </template>
                     </div>
                     <p>© {{ currentYear }} SensUs. All rights reserved.</p>
                 </div>

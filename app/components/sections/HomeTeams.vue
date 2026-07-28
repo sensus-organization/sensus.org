@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { teamsStats, teamsSectionData } from "~/data/home";
+import type { HomeTeamsSection } from "~/types/strapi";
+
+interface Props {
+    teamsSection?: HomeTeamsSection | null;
+}
+
+defineProps<Props>();
 </script>
 
 <template>
@@ -13,17 +19,17 @@ import { teamsStats, teamsSectionData } from "~/data/home";
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <div>
                     <p class="text-white/70 font-semibold text-sm uppercase tracking-widest mb-3">
-                        {{ teamsSectionData.label }}
+                        {{ teamsSection?.label }}
                     </p>
                     <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-white mb-6">
-                        <BaseHighlightedTitle :content="teamsSectionData.title" highlight-class="text-sensus-teal" />
+                        <BaseHighlightedTitle v-if="teamsSection?.title" :content="teamsSection.title" highlight-class="text-sensus-teal" />
                     </h2>
                     <p class="text-white/80 text-lg mb-8 leading-relaxed">
-                        {{ teamsSectionData.description }}
+                        {{ teamsSection?.description }}
                     </p>
 
                     <div class="grid grid-cols-3 gap-6 mb-10">
-                        <div v-for="stat in teamsStats" :key="stat.label" class="text-center">
+                        <div v-for="stat in teamsSection?.stats || []" :key="stat.label || stat.id" class="text-center">
                             <p class="text-3xl md:text-4xl font-bold text-white mb-1">
                                 {{ stat.value }}
                             </p>
@@ -48,10 +54,10 @@ import { teamsStats, teamsSectionData } from "~/data/home";
 
                 <div class="relative">
                     <ClientOnly>
-                        <SectionsTeamsWorldMap />
+                        <BlocksWorldMap bare />
                         <template #fallback>
                             <div
-                                class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 h-[400px] flex items-center justify-center"
+                                class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 h-[400px] md:h-[450px] flex items-center justify-center"
                             >
                                 <div class="text-center text-white/60">
                                     <svg

@@ -1,25 +1,23 @@
 <script setup lang="ts">
-useHead({
-    title: "SensUs | International Student Competition on Biosensors for Health",
-    meta: [
-        {
-            name: "description",
-            content:
-                "SensUs is the annual international student competition on biosensors for health. Join students from around the world developing biosensors for Parkinson's disease monitoring.",
-        },
-    ],
+import type { Home } from "~/types/strapi";
+
+const { data: home } = await useAsyncData("home", () => strapiFetch<Home>("home", { populate: HOME_POPULATE }));
+
+useSeoMeta({
+    title: () => metaText(home.value?.seo?.metaTitle),
+    description: () => metaText(home.value?.seo?.metaDescription),
 });
 </script>
 
 <template>
     <div>
-        <SectionsHomeHero />
-        <SectionsHomeAbout />
-        <SectionsHomeMission />
-        <SectionsHomeTeams />
-        <SectionsHomeTheme />
-        <SectionsHomeSymposium />
-        <SectionsHomeHighSchools />
-        <SectionsHomePartners />
+        <SectionsHomeHero v-if="home?.hero" :hero="home.hero" />
+        <SectionsHomeAbout v-if="home?.about" :about="home.about" />
+        <SectionsHomeMission v-if="home?.mission" :mission="home.mission" />
+        <SectionsHomeTeams v-if="home?.teamsSection" :teams-section="home.teamsSection" />
+        <SectionsHomeTheme v-if="home?.theme" :theme="home.theme" />
+        <SectionsHomeSymposium v-if="home?.symposium" :symposium="home.symposium" />
+        <SectionsHomeHighSchools v-if="home?.highSchools" :high-schools="home.highSchools" />
+        <SectionsHomePartners v-if="home?.partners?.length" :partners="home.partners" />
     </div>
 </template>

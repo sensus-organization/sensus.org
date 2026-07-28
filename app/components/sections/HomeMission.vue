@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { missionCards } from "~/data/home";
+import type { HomeMission } from "~/types/strapi";
+
+interface Props {
+    mission?: HomeMission | null;
+}
+
+defineProps<Props>();
 
 if (import.meta.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -34,7 +40,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <section ref="sectionRef" class="py-20 md:py-32 bg-sensus-gray-50 relative overflow-hidden">
+    <section ref="sectionRef" class="pt-16 md:pt-20 pb-20 md:pb-32 bg-sensus-gray-50 relative overflow-hidden">
         <div
             class="absolute inset-0 opacity-30 pointer-events-none"
             style="background: url(&quot;https://cdn.sensus.org/branding/bg-molecule--black-5.svg&quot;) repeat"
@@ -42,15 +48,14 @@ onMounted(() => {
 
         <div class="relative z-10 max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
-                <p class="text-sensus-red font-medium text-sm uppercase tracking-widest mb-3">Our Goals</p>
+                <p class="text-sensus-red font-medium text-sm uppercase tracking-widest mb-3">{{ mission?.label }}</p>
                 <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-sensus-gray-900">
-                    What does SensUs
-                    <span class="text-sensus-red">stand for?</span>
+                    <BaseHighlightedTitle v-if="mission?.title" :content="mission.title" />
                 </h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div v-for="card in missionCards" :key="card.id" class="mission-card card-elevated p-8 text-center">
+                <div v-for="card in mission?.cards || []" :key="card.id" class="mission-card card-elevated p-8 text-center">
                     <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-sensus-red/10 flex items-center justify-center">
                         <svg
                             v-if="card.icon === 'target'"

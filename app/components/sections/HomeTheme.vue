@@ -1,5 +1,18 @@
 <script setup lang="ts">
-import { themeData } from "~/data/home";
+import type { HomeTheme } from "~/types/strapi";
+
+interface Props {
+    theme?: HomeTheme | null;
+}
+
+const props = defineProps<Props>();
+
+const thumbnailUrl = computed(() => {
+    const media = strapiMedia(props.theme?.thumbnail);
+    if (media) return media;
+    const id = (props.theme?.videoUrl || "").match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/)?.[1];
+    return id ? `https://img.youtube.com/vi/${id}/0.jpg` : "";
+});
 </script>
 
 <template>
@@ -17,13 +30,13 @@ import { themeData } from "~/data/home";
                 <div class="relative order-2 lg:order-1">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl">
                         <img
-                            :src="themeData.videoThumbnail"
-                            :alt="`${themeData.year} Theme - ${themeData.disease}`"
+                            :src="thumbnailUrl"
+                            :alt="theme?.disease || theme?.title || 'Competition theme'"
                             class="w-full aspect-video object-cover"
                         />
 
                         <a
-                            :href="themeData.videoUrl"
+                            :href="strapiLink(theme?.videoUrl) || undefined"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors group"
@@ -40,17 +53,16 @@ import { themeData } from "~/data/home";
                 </div>
 
                 <div class="order-1 lg:order-2">
-                    <p class="text-white/70 font-semibold text-sm uppercase tracking-widest mb-3">{{ themeData.year }} Competition</p>
+                    <p class="text-white/70 font-semibold text-sm uppercase tracking-widest mb-3">{{ theme?.year }} Competition</p>
                     <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-white mb-6">
-                        Monitoring
-                        <span class="text-sensus-teal">Levodopa</span>
+                        {{ theme?.title }}
                     </h2>
 
                     <p class="text-white/70 mb-6 leading-relaxed">
-                        {{ themeData.description }}
+                        {{ theme?.description }}
                     </p>
                     <p class="text-white/70 mb-8 leading-relaxed">
-                        {{ themeData.challenge }}
+                        {{ theme?.challenge }}
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-3">

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { headerNavigation } from "~/data/navigation";
+import type { Global } from "~/types/strapi";
 
-const navigation = headerNavigation;
+const global = useState<Global | null>("global");
+const navigation = computed(() => global.value?.navigation ?? []);
 
 const mobileMenuOpen = ref(false);
 const activeDropdown = ref<string | null>(null);
@@ -27,8 +28,8 @@ function closeDropdowns() {
                     <div class="hidden lg:flex items-center gap-2">
                         <template v-for="item in navigation" :key="item.label">
                             <NuxtLink
-                                v-if="!item.children"
-                                :to="item.to"
+                                v-if="!item.children?.length"
+                                :to="strapiLink(item.to)"
                                 class="relative px-3 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5"
                                 :class="item.badge
                                     ? 'text-sensus-red border-2 border-sensus-red/30 hover:bg-sensus-red/5'
@@ -79,7 +80,7 @@ function closeDropdowns() {
                                         <template v-for="child in item.children" :key="child.label">
                                             <a
                                                 v-if="child.external"
-                                                :href="child.to"
+                                                :href="strapiLink(child.to)"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 class="px-4 py-2 text-sm font-medium text-sensus-gray-700 hover:bg-sensus-gray-50 hover:text-sensus-red transition-colors flex items-center gap-2"
@@ -90,7 +91,7 @@ function closeDropdowns() {
                                             </a>
                                             <NuxtLink
                                                 v-else
-                                                :to="child.to"
+                                                :to="strapiLink(child.to)"
                                                 class="px-4 py-2 text-sm font-medium text-sensus-gray-700 hover:bg-sensus-gray-50 hover:text-sensus-red transition-colors flex items-center gap-2"
                                             >
                                                 <UIcon v-if="child.icon" :name="child.icon" class="w-4 h-4 opacity-50" />
@@ -148,8 +149,8 @@ function closeDropdowns() {
                     <nav class="space-y-2">
                         <template v-for="item in navigation" :key="item.label">
                             <NuxtLink
-                                v-if="!item.children"
-                                :to="item.to"
+                                v-if="!item.children?.length"
+                                :to="strapiLink(item.to)"
                                 class="block px-4 py-3 rounded-xl text-sensus-gray-700 hover:bg-sensus-gray-50 hover:text-sensus-red font-medium transition-colors"
                                 @click="mobileMenuOpen = false"
                             >
@@ -200,7 +201,7 @@ function closeDropdowns() {
                                             <template v-for="child in item.children" :key="child.label">
                                                 <a
                                                     v-if="child.external"
-                                                    :href="child.to"
+                                                    :href="strapiLink(child.to)"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     class="block px-4 py-2.5 rounded-lg text-sm text-sensus-gray-600 hover:bg-sensus-gray-50 hover:text-sensus-red transition-colors"
@@ -213,7 +214,7 @@ function closeDropdowns() {
                                                 </a>
                                                 <NuxtLink
                                                     v-else
-                                                    :to="child.to"
+                                                    :to="strapiLink(child.to)"
                                                     class="block px-4 py-2.5 rounded-lg text-sm text-sensus-gray-600 hover:bg-sensus-gray-50 hover:text-sensus-red transition-colors"
                                                     @click="mobileMenuOpen = false"
                                                 >

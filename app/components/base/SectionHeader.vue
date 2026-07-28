@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HighlightedText } from "~/data/types";
+import type { HighlightedText } from "~/types/strapi";
 
 interface Props {
     label?: string;
@@ -11,7 +11,7 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div class="text-center mb-16">
+    <div class="text-center mb-10">
         <p v-if="label" class="text-sensus-red font-medium text-sm uppercase tracking-widest mb-3">
             {{ label }}
         </p>

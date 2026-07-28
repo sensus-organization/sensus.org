@@ -1,9 +1,26 @@
 <script setup lang="ts">
-import { symposiumData } from "~/data/home";
+import type { HomeSymposium } from "~/types/strapi";
+
+interface Props {
+    symposium?: HomeSymposium | null;
+}
+
+const props = defineProps<Props>();
+
+const highlights = computed(() => (props.symposium?.highlights || "").split("\n").filter(Boolean));
+
+const thumbnailUrl = computed(() => {
+    const media = strapiMedia(props.symposium?.thumbnail);
+    if (media) return media;
+    const id = (props.symposium?.videoUrl || "").match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/)?.[1];
+    return id ? `https://img.youtube.com/vi/${id}/0.jpg` : "";
+});
 </script>
 
 <template>
-    <section class="py-24 md:py-32 bg-gradient-to-br from-sensus-gray-50 via-white to-sensus-gray-50 relative overflow-hidden">
+    <section
+        class="pt-24 md:pt-32 pb-16 md:pb-20 bg-gradient-to-br from-sensus-gray-50 via-white to-sensus-gray-50 relative overflow-hidden"
+    >
         <div
             class="absolute inset-0 opacity-20 pointer-events-none"
             style="background: url(&quot;https://cdn.sensus.org/branding/bg-molecule--black-5.svg&quot;) repeat"
@@ -13,23 +30,23 @@ import { symposiumData } from "~/data/home";
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <div>
                     <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-sensus-gray-900 mb-4">
-                        {{ symposiumData.title }}
+                        {{ symposium?.title }}
                     </h2>
                     <p class="text-sensus-blue font-semibold text-lg mb-6">
-                        {{ symposiumData.subtitle }}
+                        {{ symposium?.subtitle }}
                     </p>
                     <p class="text-sensus-gray-600 mb-8 leading-relaxed">
-                        {{ symposiumData.description }}
+                        {{ symposium?.description }}
                     </p>
 
                     <ul class="space-y-3 mb-8">
-                        <li v-for="highlight in symposiumData.highlights" :key="highlight" class="flex items-start gap-4 list-none">
+                        <li v-for="highlight in highlights" :key="highlight" class="flex items-start gap-4 list-none">
                             <span class="w-2 h-2 rounded-full bg-sensus-red mt-2.5 shrink-0 block" />
                             <span class="text-sensus-gray-700">{{ highlight }}</span>
                         </li>
                     </ul>
 
-                    <a :href="symposiumData.websiteUrl" target="_blank" rel="noopener noreferrer" class="btn-glass-light">
+                    <a :href="strapiLink(symposium?.websiteUrl) || undefined" target="_blank" rel="noopener noreferrer" class="btn-glass-light">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path
                                 stroke-linecap="round"
@@ -44,10 +61,10 @@ import { symposiumData } from "~/data/home";
 
                 <div class="relative">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl">
-                        <img :src="symposiumData.thumbnail" :alt="symposiumData.title" class="w-full aspect-video object-cover" />
+                        <img :src="thumbnailUrl" :alt="symposium?.title || 'Symposium'" class="w-full aspect-video object-cover" />
 
                         <a
-                            :href="symposiumData.videoUrl"
+                            :href="strapiLink(symposium?.videoUrl) || undefined"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors group"

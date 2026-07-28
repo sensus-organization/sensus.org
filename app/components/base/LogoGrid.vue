@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { Partner } from "~/data/types";
+interface Partner {
+    name: string;
+    logo: string;
+    url: string;
+}
 
 interface Props {
     items: Partner[];
@@ -22,7 +26,7 @@ const gridCols = computed(() => {
         <a
             v-for="item in items"
             :key="item.name"
-            :href="item.url"
+            :href="strapiLink(item.url)"
             target="_blank"
             rel="noopener noreferrer"
             class="group bg-white rounded-2xl border border-sensus-gray-200 shadow-sm p-6 md:p-8 flex flex-col items-center justify-center aspect-square hover:border-sensus-red/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"

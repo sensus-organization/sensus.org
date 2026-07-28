@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import type { Person } from "~/data/types";
+interface Person {
+    name: string;
+    role?: string;
+    title?: string;
+    affiliation?: string;
+    image: string;
+    link?: string;
+}
 
 interface Props {
     people: Person[];
@@ -57,13 +64,25 @@ const lastRowStart = computed(() => {
             >
             <component
                 :is="person.link ? 'a' : 'div'"
-                :href="person.link"
-                target="_blank"
-                rel="noopener noreferrer"
+                :href="strapiLink(person.link)"
+                :target="person.link ? '_blank' : undefined"
+                :rel="person.link ? 'noopener noreferrer' : undefined"
                 :class="[cardClass(person), person.link ? 'block cursor-pointer' : '']"
             >
-                <div class="relative w-full aspect-square overflow-hidden">
-                    <img :src="person.image" :alt="person.name" class="w-full h-full object-cover" />
+                <div class="relative w-full aspect-square overflow-hidden bg-sensus-gray-100">
+                    <img
+                        v-if="person.image"
+                        :src="person.image"
+                        :alt="person.name"
+                        loading="lazy"
+                        class="w-full h-full object-cover"
+                    />
+                    <span
+                        v-else
+                        class="absolute inset-0 flex items-center justify-center text-sensus-gray-400 font-bold text-2xl"
+                    >
+                        {{ person.name.charAt(0) }}
+                    </span>
                 </div>
                 <div class="p-3 text-center">
                     <h3 :class="['font-bold text-sensus-gray-900 mb-1 leading-tight', textSize.name]">

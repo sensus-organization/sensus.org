@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { contactPageData } from "~/data/pages";
+import type { Contact } from "~/types/strapi";
 
-const pageContent = contactPageData;
+const { data: contact } = await useAsyncData("contact", () => strapiFetch<Contact>("contact", { populate: CONTACT_POPULATE }));
 
-useHead({
-    title: pageContent.meta.title,
-    meta: [
-        {
-            name: "description",
-            content: pageContent.meta.description,
-        },
-    ],
+useSeoMeta({
+    title: () => metaText(contact.value?.seo?.metaTitle),
+    description: () => metaText(contact.value?.seo?.metaDescription),
 });
+
+const visitingLines = computed(() => (contact.value?.visitingAddress?.lines || "").split("\n").filter(Boolean));
+const shippingLines = computed(() => (contact.value?.shippingAddress?.lines || "").split("\n").filter(Boolean));
 </script>
 
 <template>
@@ -19,10 +17,10 @@ useHead({
         <div class="max-w-7xl mx-auto px-6">
             <div class="mb-12">
                 <h1 class="heading-display text-4xl md:text-5xl text-sensus-gray-900 mb-4">
-                    {{ pageContent.header.title }}
+                    <BaseHighlightedTitle v-if="contact?.header?.title" :content="contact.header.title" />
                 </h1>
                 <p class="text-xl text-sensus-gray-600 max-w-2xl">
-                    {{ pageContent.header.subtitle }}
+                    {{ contact?.header?.subtitle }}
                 </p>
             </div>
 
@@ -42,17 +40,17 @@ useHead({
                             </svg>
                         </div>
                         <h2 class="text-xl font-bold text-sensus-gray-900">
-                            {{ pageContent.general.title }}
+                            {{ contact?.generalTitle }}
                         </h2>
                     </div>
 
                     <div class="flex-1 flex flex-col justify-center">
                         <p class="text-sensus-gray-600 mb-2 text-sm">For all inquiries:</p>
                         <a
-                            :href="`mailto:${pageContent.general.email}`"
+                            :href="`mailto:${contact?.email}`"
                             class="text-lg md:text-xl font-bold text-sensus-red hover:underline decoration-2 underline-offset-4 break-all"
                         >
-                            {{ pageContent.general.email }}
+                            {{ contact?.email }}
                         </a>
                     </div>
                 </div>
@@ -77,7 +75,7 @@ useHead({
                     <div class="flex-1 flex flex-col justify-center">
                         <p class="font-semibold text-sensus-gray-900 mb-3">Stichting SensUs Organization</p>
                         <div class="space-y-2">
-                            <div v-for="item in pageContent.general.legal" :key="item.label" class="flex items-center gap-3 text-sm">
+                            <div v-for="item in contact?.legal || []" :key="item.id" class="flex items-center gap-3 text-sm">
                                 <span class="text-sensus-gray-500 uppercase text-xs font-bold tracking-wider w-10">{{ item.label }}</span>
                                 <span class="font-mono text-sensus-gray-900 bg-sensus-gray-50 px-2 py-1 rounded">{{ item.value }}</span>
                             </div>
@@ -109,14 +107,15 @@ useHead({
                     </div>
 
                     <address class="not-italic text-sensus-gray-600 leading-relaxed text-sm mb-4">
-                        <p v-for="(line, index) in pageContent.addresses.visiting.lines" :key="index">
+                        <p v-for="(line, index) in visitingLines" :key="index">
                             {{ line }}
                         </p>
                     </address>
 
                     <a
-                        href="https://maps.app.goo.gl/Wovgdm8xNzw6v8Ty8"
+                        :href="strapiLink(contact?.mapsUrl) || undefined"
                         target="_blank"
+                        rel="noopener noreferrer"
                         class="inline-flex items-center gap-1.5 text-sm font-bold text-sensus-red hover:text-sensus-blue transition-colors"
                     >
                         Get Directions
@@ -149,7 +148,7 @@ useHead({
                     </div>
 
                     <address class="not-italic text-sensus-gray-600 leading-relaxed text-sm">
-                        <p v-for="(line, index) in pageContent.addresses.shipping.lines" :key="index">
+                        <p v-for="(line, index) in shippingLines" :key="index">
                             {{ line }}
                         </p>
                     </address>
@@ -181,7 +180,7 @@ useHead({
                     </p>
 
                     <a
-                        href="https://donorbox.org/donation-to-sensus"
+                        :href="strapiLink(contact?.donationUrl) || undefined"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="block w-full bg-sensus-red text-white text-center py-3 rounded-xl text-sm font-bold hover:bg-sensus-red/90 transition-colors shadow-sm"
@@ -205,17 +204,17 @@ useHead({
                             </svg>
                         </div>
                         <h2 class="text-xl font-bold text-sensus-gray-900">
-                            {{ pageContent.bank.title }}
+                            {{ contact?.bankTitle }}
                         </h2>
                     </div>
 
                     <p class="text-sensus-gray-600 mb-6 text-sm">
-                        {{ pageContent.bank.description }}
+                        {{ contact?.bankDescription }}
                     </p>
 
                     <div class="bg-sensus-gray-50 rounded-xl p-5 border border-sensus-gray-100 mt-auto">
                         <div class="space-y-3">
-                            <div v-for="item in pageContent.bank.details" :key="item.label">
+                            <div v-for="item in contact?.bankDetails || []" :key="item.id">
                                 <p class="text-xs font-semibold text-sensus-gray-500 uppercase tracking-wider mb-1">
                                     {{ item.label }}
                                 </p>

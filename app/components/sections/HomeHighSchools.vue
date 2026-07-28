@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { highSchoolsData } from "~/data/home";
+import type { HomeHighSchools } from "~/types/strapi";
+
+interface Props {
+    highSchools?: HomeHighSchools | null;
+}
+
+const props = defineProps<Props>();
+
+const images = computed(() => (props.highSchools?.images || []).map((img) => strapiMedia(img)));
+const benefits = computed(() => (props.highSchools?.benefits || "").split("\n").filter(Boolean));
 </script>
 
 <template>
-    <section class="py-24 md:py-32 bg-sensus-gray-50 relative overflow-hidden">
+    <section class="pt-16 md:pt-20 pb-24 md:pb-32 bg-sensus-gray-50 relative overflow-hidden">
         <div
             class="absolute inset-0 opacity-30 pointer-events-none"
             style="background: url(&quot;https://cdn.sensus.org/branding/bg-molecule--black-5.svg&quot;) repeat"
@@ -15,21 +24,21 @@ import { highSchoolsData } from "~/data/home";
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
                             <img
-                                :src="highSchoolsData.images[0]"
+                                :src="images[0]"
                                 alt="High school students in lab"
                                 class="w-full h-48 md:h-64 object-cover rounded-2xl shadow-lg"
                             />
                         </div>
                         <div>
                             <img
-                                :src="highSchoolsData.images[1]"
+                                :src="images[1]"
                                 alt="Students learning"
                                 class="w-full h-32 md:h-40 object-cover rounded-2xl shadow-lg"
                             />
                         </div>
                         <div>
                             <img
-                                :src="highSchoolsData.images[2]"
+                                :src="images[2]"
                                 alt="Science education"
                                 class="w-full h-32 md:h-40 object-cover rounded-2xl shadow-lg"
                             />
@@ -43,17 +52,17 @@ import { highSchoolsData } from "~/data/home";
 
                 <div>
                     <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-sensus-gray-900 mb-4">
-                        {{ highSchoolsData.title }}
+                        {{ highSchools?.title }}
                     </h2>
                     <p class="text-sensus-blue font-semibold text-lg mb-6">
-                        {{ highSchoolsData.subtitle }}
+                        {{ highSchools?.subtitle }}
                     </p>
                     <p class="text-sensus-gray-600 mb-8 leading-relaxed">
-                        {{ highSchoolsData.description }}
+                        {{ highSchools?.description }}
                     </p>
 
                     <ul class="space-y-3 mb-8">
-                        <li v-for="benefit in highSchoolsData.benefits" :key="benefit" class="flex items-start gap-4 list-none">
+                        <li v-for="benefit in benefits" :key="benefit" class="flex items-start gap-4 list-none">
                             <span class="w-2 h-2 rounded-full bg-sensus-red mt-2.5 shrink-0 block" />
                             <span class="text-sensus-gray-700">{{ benefit }}</span>
                         </li>

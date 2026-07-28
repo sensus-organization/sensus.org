@@ -8,6 +8,7 @@
     --color-sensus-green: #50b748;
 
     --color-sensus-white: #ffffff;
+    --color-sensus-tint: #f6f8fa;
     --color-sensus-gray-50: #f9fafb;
     --color-sensus-gray-100: #f3f4f6;
     --color-sensus-gray-200: #e5e7eb;
@@ -20,9 +21,6 @@
     --color-sensus-gray-900: #111827;
 
     --font-family-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-
-    --spacing-section: 5rem;
-    --spacing-section-sm: 3rem;
 }
 
 html {
@@ -66,20 +64,6 @@ body {
     box-shadow:
         0 4px 6px -1px rgba(0, 0, 0, 0.05),
         0 2px 4px -1px rgba(0, 0, 0, 0.03);
-}
-
-.glass-dark {
-    background: rgba(30, 48, 99, 0.9);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-}
-
-.gradient-overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
-}
-
-.gradient-red {
-    background: linear-gradient(135deg, var(--color-sensus-red) 0%, #a51b20 100%);
 }
 
 .card-elevated {
@@ -194,18 +178,6 @@ body {
     border-color: rgba(0, 0, 0, 0.2);
 }
 
-@keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 @keyframes pulse-subtle {
     0%,
     100% {
@@ -217,45 +189,8 @@ body {
     }
 }
 
-.animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
-}
-
 .animate-pulse-subtle {
     animation: pulse-subtle 2s ease-in-out infinite;
-}
-
-.delay-100 {
-    animation-delay: 100ms;
-}
-
-.delay-200 {
-    animation-delay: 200ms;
-}
-
-.delay-300 {
-    animation-delay: 300ms;
-}
-
-.delay-400 {
-    animation-delay: 400ms;
-}
-
-.delay-500 {
-    animation-delay: 500ms;
-}
-
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.6s ease-out,
-        transform 0.6s ease-out;
-}
-
-.scroll-reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 section {

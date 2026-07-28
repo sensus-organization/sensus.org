@@ -7,6 +7,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const safeVideoUrl = computed(() => strapiLink(props.videoUrl));
+
 const thumbnail = computed(() => {
     if (props.thumbnailUrl) return props.thumbnailUrl;
     const videoId = props.videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/)?.[1];
@@ -23,7 +25,7 @@ const thumbnail = computed(() => {
         />
 
         <a
-            :href="videoUrl"
+            :href="safeVideoUrl"
             target="_blank"
             rel="noopener noreferrer"
             class="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors"

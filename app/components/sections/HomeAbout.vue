@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { aboutSectionData, aboutImages } from "~/data/home";
+import type { HomeAbout } from "~/types/strapi";
+
+interface Props {
+    about?: HomeAbout | null;
+}
+
+const props = defineProps<Props>();
 
 if (import.meta.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -27,8 +33,8 @@ interface BgImage {
     rotation: number;
 }
 
-const mainImages = aboutImages.main;
-const bgImagePool = aboutImages.background;
+const mainImages = computed(() => (props.about?.images || []).map((img) => strapiMedia(img)));
+const bgImagePool = Array.from({ length: 40 }, (_, i) => `https://cdn.sensus.org/assets/bg/${String(i).padStart(2, "0")}.webp`);
 
 const bgImages: BgImage[] = [];
 
@@ -187,7 +193,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <section ref="sectionRef" class="py-24 md:py-32 bg-sensus-gray-50 overflow-hidden relative">
+    <section ref="sectionRef" class="pt-24 md:pt-32 pb-16 md:pb-20 bg-sensus-gray-50 overflow-hidden relative">
         <div
             class="absolute inset-0 opacity-30 pointer-events-none"
             style="background: url(&quot;https://cdn.sensus.org/branding/bg-molecule--black-5.svg&quot;) repeat"
@@ -196,14 +202,14 @@ onMounted(() => {
         <div class="relative z-10 max-w-7xl mx-auto px-6">
             <div class="text-center mb-12 md:mb-0 relative z-[60]">
                 <p class="text-sensus-red font-semibold text-sm uppercase tracking-widest mb-3">
-                    {{ aboutSectionData.label }}
+                    {{ about?.label }}
                 </p>
                 <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-sensus-gray-900 mb-6">
-                    <BaseHighlightedTitle :content="aboutSectionData.title" />
+                    <BaseHighlightedTitle v-if="about?.title" :content="about.title" />
                 </h2>
 
                 <p class="text-sensus-gray-600 text-lg max-w-3xl mx-auto text-balance relative z-[60] bg-transparent mb-4">
-                    {{ aboutSectionData.description }}
+                    {{ about?.description }}
                 </p>
 
                 <div class="relative z-[60] mb-8">

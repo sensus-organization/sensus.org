@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HighlightedText } from "~/data/types";
+import type { HighlightedText } from "~/types/strapi";
 
 interface Props {
     content: HighlightedText | string;

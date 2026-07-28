@@ -1,13 +1,26 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { partnerCarouselLogos } from "~/data/partners";
+import type { Partner } from "~/types/strapi";
+
+interface Props {
+    partners?: Partner[] | null;
+}
+
+const props = defineProps<Props>();
 
 if (import.meta.client) {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const scrollPartners = [...partnerCarouselLogos, ...partnerCarouselLogos];
+const partnerLogos = computed(() =>
+    (props.partners || []).map((partner) => ({
+        name: partner.name,
+        logo: strapiMedia(partner.logo),
+    })),
+);
+
+const scrollPartners = computed(() => [...partnerLogos.value, ...partnerLogos.value]);
 
 const sectionRef = ref<HTMLElement | null>(null);
 
