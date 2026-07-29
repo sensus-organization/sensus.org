@@ -25,8 +25,16 @@ function scriptHashes(chunks: string[]): string[] {
     return [...hashes];
 }
 
+const PAYLOAD_PATH = /\/_payload\.json(\?|$)/;
+
 export default defineNitroPlugin((nitroApp) => {
     if (import.meta.dev) return;
+
+    nitroApp.hooks.hook("beforeResponse", (event) => {
+        if (PAYLOAD_PATH.test(event.path)) {
+            setResponseHeader(event, "cache-control", "no-store");
+        }
+    });
 
     nitroApp.hooks.hook("render:html", (html, { event }) => {
         const strapiOrigin = originOf(useRuntimeConfig(event).public.strapiUrl as string);
