@@ -136,6 +136,23 @@ export interface Person {
     link?: string | null;
 }
 
+export interface Department {
+    id: number;
+    documentId?: string;
+    name: string;
+    order?: number | null;
+}
+
+export interface Membership {
+    id: number;
+    documentId?: string;
+    role?: string | null;
+    order?: number | null;
+    person?: Person | null;
+    department?: Department | null;
+    edition?: Pick<Edition, "id" | "documentId" | "year"> | null;
+}
+
 export interface Partner {
     id: number;
     documentId?: string;
@@ -174,20 +191,6 @@ export interface TimelineEvent {
     link?: string | null;
 }
 
-export interface OrgMember {
-    id?: number;
-    name: string;
-    role?: string | null;
-    photo?: StrapiMedia | null;
-    link?: string | null;
-}
-
-export interface OrgGroup {
-    id?: number;
-    name: string;
-    members?: OrgMember[] | null;
-}
-
 export type AwardCategory = "innovation" | "translation-potential" | "analytical-performance" | "public-inspiration";
 
 export interface AwardResult {
@@ -209,7 +212,6 @@ export interface Edition {
     links?: LinkItem[] | null;
     results?: AwardResult[] | null;
     orgIntro?: string | null;
-    orgGroups?: OrgGroup[] | null;
 }
 
 export interface BlockSectionHeader {
@@ -297,6 +299,14 @@ export interface BlockPersonGrid {
     people?: Person[] | null;
 }
 
+export interface BlockOrganization {
+    __component: "blocks.organization";
+    id: number;
+    title?: HighlightedText | null;
+    description?: string | null;
+    size?: "sm" | "md" | "lg";
+}
+
 export interface BlockLogoGrid {
     __component: "blocks.logo-grid";
     id: number;
@@ -346,6 +356,7 @@ export type PageSection =
     | BlockLinkList
     | BlockCardList
     | BlockPersonGrid
+    | BlockOrganization
     | BlockLogoGrid
     | BlockTeamGrid
     | BlockWorldMap

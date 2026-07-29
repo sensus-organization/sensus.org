@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Edition, Team } from "~/types/strapi";
+import type { MembershipGroup } from "~/composables/useMemberships";
 
 const route = useRoute();
 const year = computed(() => Number(route.params.year));
@@ -30,14 +31,16 @@ const { data: teams } = await useAsyncData(`edition-teams:${year.value}`, () =>
 const teamList = computed(() => teams.value || []);
 const teamsHaveImages = computed(() => teamList.value.some((team) => strapiMedia(team.image)));
 
-const orgGroups = computed(() => (editionData.value?.orgGroups || []).filter((group) => group.members?.length));
+const { data: membershipGroups } = await useMembershipsByYear(year);
 
-const mappedMembers = (members: NonNullable<NonNullable<Edition["orgGroups"]>[number]["members"]>) =>
-    members.map((member) => ({
-        name: member.name,
-        role: member.role || undefined,
-        image: strapiMedia(member.photo),
-        link: member.link || undefined,
+const orgGroups = computed(() => (membershipGroups.value || []).filter((group) => group.people.length));
+
+const mappedMembers = (people: MembershipGroup["people"]) =>
+    people.map((person) => ({
+        name: person.name,
+        role: person.role || undefined,
+        image: strapiMedia(person.photo),
+        link: person.link || undefined,
     }));
 
 useSeoMeta({
@@ -183,11 +186,14 @@ useSeoMeta({
                     {{ editionData.orgIntro }}
                 </p>
                 <div class="space-y-12">
-                    <div v-for="group in orgGroups" :key="group.id ?? group.name">
-                        <h3 class="heading-section text-xl md:text-2xl text-sensus-gray-900 text-center mb-8">
+                    <div v-for="group in orgGroups" :key="group.name ?? 'ungrouped'">
+                        <h3
+                            v-if="group.name"
+                            class="heading-section text-xl md:text-2xl text-sensus-gray-900 text-center mb-8"
+                        >
                             {{ group.name }}
                         </h3>
-                        <BasePersonGrid :people="mappedMembers(group.members || [])" size="sm" />
+                        <BasePersonGrid :people="mappedMembers(group.people)" size="sm" />
                     </div>
                 </div>
             </div>

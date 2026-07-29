@@ -113,6 +113,7 @@ export const PAGE_POPULATE: QueryObject = {
             "blocks.link-list": { populate: { links: true } },
             "blocks.card-list": { populate: { cards: { populate: { image: true } } } },
             "blocks.person-grid": { populate: { title: true, people: { populate: { photo: true } } } },
+            "blocks.organization": { populate: { title: true } },
             "blocks.logo-grid": { populate: { partners: { populate: { logo: true } } } },
             "blocks.team-grid": { populate: { title: true } },
             "blocks.world-map": { populate: "*" },
@@ -131,7 +132,11 @@ export const EDITION_POPULATE: QueryObject = {
             third: { populate: { trd: true } },
         },
     },
-    orgGroups: { populate: { members: { populate: { photo: true } } } },
+};
+
+export const MEMBERSHIP_POPULATE: QueryObject = {
+    person: { populate: { photo: true } },
+    department: { fields: ["name", "order"] },
 };
 
 export const GLOBAL_POPULATE: QueryObject = {
