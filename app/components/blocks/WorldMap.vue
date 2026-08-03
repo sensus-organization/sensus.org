@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Global, Team } from "~/types/strapi";
+import type { Team } from "~/types/strapi";
 
 interface Props {
     title?: string | null;
@@ -9,9 +9,7 @@ interface Props {
 defineOptions({ inheritAttrs: false });
 defineProps<Props>();
 
-const global = useState<Global | null>("global", () => null);
-
-const teamsData = useStrapiFind<Team>("teams", { populate: "*", pagination: { pageSize: 100 } });
+const teamsData = useCurrentTeams();
 
 const mapContainer = ref<HTMLElement | null>(null);
 let map: L.Map | null = null;
@@ -63,8 +61,7 @@ onMounted(async () => {
     if (!import.meta.client) return;
 
     const all = (await teamsData).data.value || [];
-    const currentYear = global.value?.currentYear ?? (all.length ? Math.max(...all.map((t) => t.year ?? 0)) : 0);
-    const teams = all.filter((t) => t.lat != null && t.lng != null && (t.year ?? 0) === currentYear);
+    const teams = all.filter((t) => t.lat != null && t.lng != null);
     if (!teams.length || !mapContainer.value) return;
 
     const labelPositions = calculateLabelPositions(teams);

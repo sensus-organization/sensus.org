@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Global, HighlightedText, Team } from "~/types/strapi";
+import type { HighlightedText, Team } from "~/types/strapi";
 
 interface Props {
     label?: string | null;
@@ -32,18 +32,9 @@ const handleEscape = (e: KeyboardEvent) => {
 onMounted(() => window.addEventListener("keydown", handleEscape));
 onBeforeUnmount(() => window.removeEventListener("keydown", handleEscape));
 
-const global = useState<Global | null>("global", () => null);
+const { data: teams } = await useCurrentTeams();
 
-const { data: teams } = await useStrapiFind<Team>("teams", { populate: "*", pagination: { pageSize: 100 } });
-
-const currentTeams = computed(() => {
-    const all = teams.value || [];
-    if (!all.length) return all;
-    const currentYear = global.value?.currentYear ?? Math.max(...all.map((team) => team.year ?? 0));
-    return all.filter((team) => (team.year ?? 0) === currentYear);
-});
-
-const sortedTeams = computed(() => [...currentTeams.value].sort((a, b) => a.name.localeCompare(b.name)));
+const sortedTeams = computed(() => [...(teams.value || [])].sort((a, b) => a.name.localeCompare(b.name)));
 </script>
 
 <template>
