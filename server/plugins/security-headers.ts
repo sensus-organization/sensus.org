@@ -45,7 +45,7 @@ export default defineNitroPlugin((nitroApp) => {
             "base-uri 'self'",
             "object-src 'none'",
             "form-action 'self'",
-            "frame-src 'none'",
+            "frame-src https://www.canva.com",
             "manifest-src 'self'",
             `script-src 'self' ${scriptHashes([...html.head, ...html.bodyPrepend, ...html.bodyAppend]).join(" ")}`,
             "style-src 'self' 'unsafe-inline'",
