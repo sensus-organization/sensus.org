@@ -108,6 +108,7 @@ export const PAGE_POPULATE: QueryObject = {
             "blocks.feature": { populate: { title: true, link: true, image: true } },
             "blocks.cta": { populate: "*" },
             "blocks.video": { populate: { thumbnail: true } },
+            "blocks.embed": true,
             "blocks.image": { populate: { image: true } },
             "blocks.schedule": { populate: { items: true } },
             "blocks.link-list": { populate: { links: true } },

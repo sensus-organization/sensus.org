@@ -258,6 +258,14 @@ export interface BlockVideo {
     caption?: string | null;
 }
 
+export interface BlockEmbed {
+    __component: "blocks.embed";
+    id: number;
+    url: string;
+    title?: string | null;
+    aspectRatio?: "16:9" | "4:3" | "1:1" | "A4";
+}
+
 export interface BlockImage {
     __component: "blocks.image";
     id: number;
@@ -351,6 +359,7 @@ export type PageSection =
     | BlockFeature
     | BlockCta
     | BlockVideo
+    | BlockEmbed
     | BlockImage
     | BlockSchedule
     | BlockLinkList
