@@ -126,31 +126,18 @@ export interface NavItem extends NavChild {
 }
 
 export interface Person {
-    id: number;
-    documentId?: string;
+    id?: number;
     name: string;
     role?: string | null;
-    title?: string | null;
     affiliation?: string | null;
     photo?: StrapiMedia | null;
     link?: string | null;
 }
 
 export interface Department {
-    id: number;
-    documentId?: string;
-    name: string;
-    order?: number | null;
-}
-
-export interface Membership {
-    id: number;
-    documentId?: string;
-    role?: string | null;
-    order?: number | null;
-    person?: Person | null;
-    department?: Department | null;
-    edition?: Pick<Edition, "id" | "documentId" | "year"> | null;
+    id?: number;
+    name?: string | null;
+    members?: Person[] | null;
 }
 
 export interface Partner {
@@ -177,17 +164,13 @@ export interface Team {
 }
 
 export interface TimelineEvent {
-    id: number;
-    documentId?: string;
-    year?: string | null;
+    id?: number;
+    year: number;
     title: string;
     biomarker?: string | null;
     description?: string | null;
-    color?: string | null;
-    icon?: string | null;
-    current?: boolean | null;
+    color?: "red" | "blue" | "teal" | "orange" | "green" | null;
     milestone?: boolean | null;
-    order?: number | null;
     link?: string | null;
 }
 
@@ -207,11 +190,20 @@ export interface Edition {
     year: number;
     title?: string | null;
     biomarker?: string | null;
-    summary?: string | null;
+    description?: string | null;
+    challenge?: string | null;
+    videoUrl?: string | null;
+    thumbnail?: StrapiMedia | null;
     themeContent?: StrapiBlocks | null;
     links?: LinkItem[] | null;
     results?: AwardResult[] | null;
-    orgIntro?: string | null;
+}
+
+export interface Organization {
+    id: number;
+    documentId?: string;
+    year: number;
+    departments?: Department[] | null;
 }
 
 export interface BlockSectionHeader {
@@ -302,17 +294,7 @@ export interface BlockPersonGrid {
     title?: HighlightedText | null;
     description?: string | null;
     size?: "sm" | "md" | "lg";
-    showRole?: boolean | null;
-    showAffiliation?: boolean | null;
     people?: Person[] | null;
-}
-
-export interface BlockOrganization {
-    __component: "blocks.organization";
-    id: number;
-    title?: HighlightedText | null;
-    description?: string | null;
-    size?: "sm" | "md" | "lg";
 }
 
 export interface BlockLogoGrid {
@@ -323,18 +305,15 @@ export interface BlockLogoGrid {
     partners?: Partner[] | null;
 }
 
-export interface BlockTeamGrid {
-    __component: "blocks.team-grid";
+export type WidgetType = "teams" | "world-map" | "archive" | "organization";
+
+export interface BlockWidget {
+    __component: "blocks.widget";
     id: number;
+    type: WidgetType;
     label?: string | null;
     title?: HighlightedText | null;
     description?: string | null;
-}
-
-export interface BlockWorldMap {
-    __component: "blocks.world-map";
-    id: number;
-    title?: string | null;
 }
 
 export interface BlockTimeline {
@@ -343,14 +322,7 @@ export interface BlockTimeline {
     label?: string | null;
     title?: HighlightedText | null;
     description?: string | null;
-}
-
-export interface BlockArchiveHub {
-    __component: "blocks.archive-hub";
-    id: number;
-    label?: string | null;
-    title?: HighlightedText | null;
-    description?: string | null;
+    events?: TimelineEvent[] | null;
 }
 
 export type PageSection =
@@ -365,12 +337,9 @@ export type PageSection =
     | BlockLinkList
     | BlockCardList
     | BlockPersonGrid
-    | BlockOrganization
     | BlockLogoGrid
-    | BlockTeamGrid
-    | BlockWorldMap
-    | BlockTimeline
-    | BlockArchiveHub;
+    | BlockWidget
+    | BlockTimeline;
 
 export interface PageHero {
     id?: number;
@@ -412,7 +381,6 @@ export interface NewsArticle {
     excerpt?: string | null;
     heroImage?: StrapiMedia | null;
     cardImage?: StrapiMedia | null;
-    body?: StrapiBlocks | null;
     sections?: NewsSection[] | null;
 }
 
@@ -421,11 +389,13 @@ export interface Global {
     documentId?: string;
     navigation?: NavItem[] | null;
     socialLinks?: SocialLink[] | null;
-    addresses?: AddressItem[] | null;
+    visitingAddress?: AddressItem | null;
+    shippingAddress?: AddressItem | null;
+    mapsUrl?: string | null;
     contactEmail?: string | null;
     donationUrl?: string | null;
     legalLinks?: LinkItem[] | null;
-    currentYear?: number | null;
+    currentYear: number;
     seo?: Seo | null;
 }
 
@@ -433,8 +403,7 @@ export interface HomeHero {
     id?: number;
     videoUrl?: string | null;
     poster?: StrapiMedia | null;
-    titleBefore?: string | null;
-    titleHighlighted?: string | null;
+    title?: HighlightedText | null;
     subtitle?: string | null;
     buttons?: ButtonItem[] | null;
 }
@@ -461,17 +430,6 @@ export interface HomeTeamsSection {
     title?: HighlightedText | null;
     description?: string | null;
     stats?: StatItem[] | null;
-}
-
-export interface HomeTheme {
-    id?: number;
-    year?: string | null;
-    title?: string | null;
-    disease?: string | null;
-    description?: string | null;
-    challenge?: string | null;
-    videoUrl?: string | null;
-    thumbnail?: StrapiMedia | null;
 }
 
 export interface HomeSymposium {
@@ -501,7 +459,6 @@ export interface Home {
     about?: HomeAbout | null;
     mission?: HomeMission | null;
     teamsSection?: HomeTeamsSection | null;
-    theme?: HomeTheme | null;
     symposium?: HomeSymposium | null;
     highSchools?: HomeHighSchools | null;
     partners?: Partner[] | null;
@@ -513,14 +470,9 @@ export interface Contact {
     documentId?: string;
     seo?: Seo | null;
     header?: PageHero | null;
-    visitingAddress?: AddressItem | null;
-    shippingAddress?: AddressItem | null;
     bankTitle?: string | null;
     bankDescription?: string | null;
     bankDetails?: StatItem[] | null;
     generalTitle?: string | null;
-    email?: string | null;
     legal?: StatItem[] | null;
-    mapsUrl?: string | null;
-    donationUrl?: string | null;
 }

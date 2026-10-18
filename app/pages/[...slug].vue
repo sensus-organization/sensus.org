@@ -13,12 +13,9 @@ import {
     BlocksLinkList,
     BlocksCardList,
     BlocksPersonGrid,
-    BlocksOrganization,
     BlocksLogoGrid,
-    BlocksTeamGrid,
-    BlocksWorldMap,
+    BlocksWidget,
     BlocksTimeline,
-    BlocksArchiveHub,
 } from "#components";
 
 const route = useRoute();
@@ -60,12 +57,9 @@ const blockMap: Record<string, Component> = {
     "blocks.link-list": BlocksLinkList,
     "blocks.card-list": BlocksCardList,
     "blocks.person-grid": BlocksPersonGrid,
-    "blocks.organization": BlocksOrganization,
     "blocks.logo-grid": BlocksLogoGrid,
-    "blocks.team-grid": BlocksTeamGrid,
-    "blocks.world-map": BlocksWorldMap,
+    "blocks.widget": BlocksWidget,
     "blocks.timeline": BlocksTimeline,
-    "blocks.archive-hub": BlocksArchiveHub,
 };
 
 const blockFor = (name: string) => (Object.hasOwn(blockMap, name) ? blockMap[name] : undefined);

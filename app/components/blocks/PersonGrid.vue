@@ -5,8 +5,6 @@ interface Props {
     title?: HighlightedText | null;
     description?: string | null;
     size?: "sm" | "md" | "lg";
-    showRole?: boolean | null;
-    showAffiliation?: boolean | null;
     people?: Person[] | null;
 }
 
@@ -17,7 +15,6 @@ const mappedPeople = computed(() =>
     (props.people || []).map((person) => ({
         name: person.name,
         role: person.role || undefined,
-        title: person.title || undefined,
         affiliation: person.affiliation || undefined,
         image: strapiMedia(person.photo),
         link: person.link || undefined,
@@ -34,12 +31,7 @@ const mappedPeople = computed(() =>
             <p v-if="description" class="text-center text-sensus-gray-600 mb-8 max-w-3xl mx-auto">
                 {{ description }}
             </p>
-            <BasePersonGrid
-                :people="mappedPeople"
-                :size="size || 'md'"
-                :show-role="showRole ?? true"
-                :show-affiliation="showAffiliation ?? false"
-            />
+            <BasePersonGrid :people="mappedPeople" :size="size || 'md'" />
         </div>
     </section>
 </template>

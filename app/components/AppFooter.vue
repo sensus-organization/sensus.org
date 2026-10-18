@@ -9,7 +9,9 @@ if (import.meta.client) {
 
 const global = useState<Global | null>("global");
 const socialLinks = computed(() => global.value?.socialLinks ?? []);
-const addresses = computed(() => global.value?.addresses ?? []);
+const addresses = computed(() =>
+    [global.value?.visitingAddress, global.value?.shippingAddress].filter((address): address is AddressItem => !!address),
+);
 const legalLinks = computed(() => global.value?.legalLinks ?? []);
 const contactEmail = computed(() => global.value?.contactEmail ?? "");
 const donationUrl = computed(() => global.value?.donationUrl ?? "");

@@ -18,13 +18,13 @@ const { data: editionsRaw } = await useStrapiFind<Edition>("editions", {
     pagination: { pageSize: 100 },
 });
 
+// Past years, plus the current year once its results are published.
 const editions = computed(() => {
-    const all = [...(editionsRaw.value || [])].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
     const currentYear = global.value?.currentYear;
-    if (currentYear != null) return all.filter((edition) => (edition.year ?? 0) < currentYear);
-    if (!all.length) return all;
-    const maxYear = Math.max(...all.map((edition) => edition.year ?? 0));
-    return all.filter((edition) => (edition.year ?? 0) !== maxYear);
+    if (!currentYear) return [];
+    return (editionsRaw.value || []).filter(
+        (edition) => edition.year < currentYear || (edition.year === currentYear && hasResults(edition)),
+    );
 });
 </script>
 

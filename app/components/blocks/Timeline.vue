@@ -1,20 +1,28 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components";
-import type { HighlightedText, TimelineEvent } from "~/types/strapi";
+import type { Global, HighlightedText, TimelineEvent } from "~/types/strapi";
 
 interface Props {
     label?: string | null;
     title?: HighlightedText | null;
     description?: string | null;
+    events?: TimelineEvent[] | null;
 }
 
 defineOptions({ inheritAttrs: false });
-defineProps<Props>();
+const props = defineProps<Props>();
 
-const { data: events } = await useStrapiFind<TimelineEvent>("timeline-events", {
-    sort: "order",
-    pagination: { pageSize: 100 },
-});
+const global = useState<Global | null>("global", () => null);
+
+// Newest first; events of the same year keep the order they have in the CMS.
+const items = computed(() =>
+    [...(props.events || [])]
+        .sort((a, b) => b.year - a.year)
+        .map((event) => ({
+            ...event,
+            current: !event.milestone && event.year === global.value?.currentYear,
+        })),
+);
 
 function getColorClasses(color?: string | null) {
     const colors: Record<string, { bg: string; border: string; text: string; dot: string }> = {
@@ -52,7 +60,7 @@ function getColorClasses(color?: string | null) {
                 <div class="hidden md:block absolute top-0 bottom-0 w-0.5 bg-sensus-gray-300" style="left: 107px" />
 
                 <div class="space-y-6 md:space-y-8">
-                    <div v-for="(event, index) in events || []" :key="`${event.year}-${index}`" class="timeline-item relative">
+                    <div v-for="(event, index) in items" :key="`${event.year}-${index}`" class="timeline-item relative">
                         <div class="hidden md:grid items-start" style="grid-template-columns: 80px 24px 1fr; gap: 16px">
                             <div
                                 class="text-right pt-1"
@@ -228,7 +236,7 @@ function getColorClasses(color?: string | null) {
                         </p>
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <NuxtLink
-                                to="/competition/theme-2026"
+                                :to="`/competition/theme-${global?.currentYear}`"
                                 class="inline-flex items-center gap-2 bg-sensus-red text-white px-6 py-3 rounded-lg font-semibold hover:bg-sensus-red/90 transition-all shadow-lg"
                             >
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

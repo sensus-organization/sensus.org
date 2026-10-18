@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import type { Team } from "~/types/strapi";
+import type { HighlightedText, Team } from "~/types/strapi";
 
 interface Props {
-    title?: string | null;
+    label?: string | null;
+    title?: HighlightedText | null;
+    description?: string | null;
     bare?: boolean;
 }
 
@@ -218,10 +220,16 @@ onUnmounted(() => {
 <template>
     <section :class="bare ? '' : 'py-12 md:py-16'">
         <div :class="bare ? '' : 'max-w-7xl mx-auto px-6'">
-            <div v-if="title" class="text-center mb-8">
-                <h2 class="heading-section text-3xl md:text-4xl text-sensus-gray-900">
-                    {{ title }}
+            <div v-if="label || title || description" class="text-center mb-8">
+                <p v-if="label" class="text-sensus-red font-medium text-sm uppercase tracking-widest mb-3">
+                    {{ label }}
+                </p>
+                <h2 v-if="title" class="heading-section text-3xl md:text-4xl text-sensus-gray-900 mb-6">
+                    <BaseHighlightedTitle :content="title" />
                 </h2>
+                <p v-if="description" class="text-lg text-sensus-gray-600 max-w-4xl mx-auto leading-relaxed">
+                    {{ description }}
+                </p>
             </div>
 
             <div class="relative">

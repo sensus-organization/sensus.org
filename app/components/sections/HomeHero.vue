@@ -8,6 +8,15 @@ interface Props {
 const props = defineProps<Props>();
 
 const videoPoster = computed(() => strapiMedia(props.hero?.poster));
+
+// The highlighted part goes on its own line.
+const titleParts = computed(() => {
+    const text = props.hero?.title?.text ?? "";
+    const highlight = props.hero?.title?.highlight ?? "";
+    const index = highlight ? text.indexOf(highlight) : -1;
+    if (index === -1) return { before: text, highlight: "", after: "" };
+    return { before: text.slice(0, index).trim(), highlight, after: text.slice(index + highlight.length) };
+});
 </script>
 
 <template>
@@ -19,8 +28,8 @@ const videoPoster = computed(() => strapiMedia(props.hero?.poster));
 
         <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
             <h1 class="heading-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white mb-6">
-                {{ hero?.titleBefore }}<br />
-                <span class="text-sensus-red">{{ hero?.titleHighlighted }}</span>
+                <template v-if="titleParts.before">{{ titleParts.before }}<br /></template>
+                <span v-if="titleParts.highlight" class="text-sensus-red">{{ titleParts.highlight }}</span>{{ titleParts.after }}
             </h1>
 
             <p class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto mb-10 text-balance font-medium">

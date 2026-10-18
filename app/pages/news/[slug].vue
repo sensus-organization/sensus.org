@@ -65,12 +65,6 @@ useSeoMeta({
             </p>
         </div>
 
-        <section v-if="article.body?.length" class="pt-10 pb-4">
-            <div class="max-w-4xl mx-auto px-6">
-                <BaseBlocksRenderer :content="article.body" />
-            </div>
-        </section>
-
         <section v-for="(section, index) in sections" :key="section.id ?? index" class="py-6 md:py-8">
             <div class="max-w-4xl mx-auto px-6">
                 <div :class="section.highlight ? 'rounded-3xl bg-sensus-red/5 border border-sensus-red/15 p-6 md:p-10' : ''">

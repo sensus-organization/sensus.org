@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { Contact } from "~/types/strapi";
+import type { Contact, Global } from "~/types/strapi";
 
+const global = useState<Global | null>("global", () => null);
 const { data: contact } = await useAsyncData("contact", () => strapiFetch<Contact>("contact", { populate: CONTACT_POPULATE }));
 
 useSeoMeta({
@@ -8,8 +9,8 @@ useSeoMeta({
     description: () => metaText(contact.value?.seo?.metaDescription),
 });
 
-const visitingLines = computed(() => (contact.value?.visitingAddress?.lines || "").split("\n").filter(Boolean));
-const shippingLines = computed(() => (contact.value?.shippingAddress?.lines || "").split("\n").filter(Boolean));
+const visitingLines = computed(() => (global.value?.visitingAddress?.lines || "").split("\n").filter(Boolean));
+const shippingLines = computed(() => (global.value?.shippingAddress?.lines || "").split("\n").filter(Boolean));
 </script>
 
 <template>
@@ -47,10 +48,10 @@ const shippingLines = computed(() => (contact.value?.shippingAddress?.lines || "
                     <div class="flex-1 flex flex-col justify-center">
                         <p class="text-sensus-gray-600 mb-2 text-sm">For all inquiries:</p>
                         <a
-                            :href="`mailto:${contact?.email}`"
+                            :href="`mailto:${global?.contactEmail}`"
                             class="text-lg md:text-xl font-bold text-sensus-red hover:underline decoration-2 underline-offset-4 break-all"
                         >
-                            {{ contact?.email }}
+                            {{ global?.contactEmail }}
                         </a>
                     </div>
                 </div>
@@ -113,7 +114,7 @@ const shippingLines = computed(() => (contact.value?.shippingAddress?.lines || "
                     </address>
 
                     <a
-                        :href="strapiLink(contact?.mapsUrl) || undefined"
+                        :href="strapiLink(global?.mapsUrl) || undefined"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="inline-flex items-center gap-1.5 text-sm font-bold text-sensus-red hover:text-sensus-blue transition-colors"
@@ -180,7 +181,7 @@ const shippingLines = computed(() => (contact.value?.shippingAddress?.lines || "
                     </p>
 
                     <a
-                        :href="strapiLink(contact?.donationUrl) || undefined"
+                        :href="strapiLink(global?.donationUrl) || undefined"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="block w-full bg-sensus-red text-white text-center py-3 rounded-xl text-sm font-bold hover:bg-sensus-red/90 transition-colors shadow-sm"

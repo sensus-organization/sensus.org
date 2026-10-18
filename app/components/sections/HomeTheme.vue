@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import type { HomeTheme } from "~/types/strapi";
+import type { Edition } from "~/types/strapi";
 
 interface Props {
-    theme?: HomeTheme | null;
+    edition: Edition;
 }
 
 const props = defineProps<Props>();
 
 const thumbnailUrl = computed(() => {
-    const media = strapiMedia(props.theme?.thumbnail);
+    const media = strapiMedia(props.edition.thumbnail);
     if (media) return media;
-    const id = (props.theme?.videoUrl || "").match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/)?.[1];
+    const id = (props.edition.videoUrl || "").match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/)?.[1];
     return id ? `https://img.youtube.com/vi/${id}/0.jpg` : "";
 });
 </script>
 
 <template>
-    <section id="theme-2026" class="pt-16 md:pt-20 pb-24 md:pb-32 bg-sensus-blue relative overflow-hidden">
+    <section :id="`theme-${edition.year}`" class="pt-16 md:pt-20 pb-24 md:pb-32 bg-sensus-blue relative overflow-hidden">
         <div
             class="absolute inset-0 opacity-10 pointer-events-none"
             style="
@@ -31,12 +31,12 @@ const thumbnailUrl = computed(() => {
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl">
                         <img
                             :src="thumbnailUrl"
-                            :alt="theme?.disease || theme?.title || 'Competition theme'"
+                            :alt="edition.title || 'Competition theme'"
                             class="w-full aspect-video object-cover"
                         />
 
                         <a
-                            :href="strapiLink(theme?.videoUrl) || undefined"
+                            :href="strapiLink(edition.videoUrl) || undefined"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors group"
@@ -53,16 +53,16 @@ const thumbnailUrl = computed(() => {
                 </div>
 
                 <div class="order-1 lg:order-2">
-                    <p class="text-white/70 font-semibold text-sm uppercase tracking-widest mb-3">{{ theme?.year }} Competition</p>
+                    <p class="text-white/70 font-semibold text-sm uppercase tracking-widest mb-3">{{ edition.year }} Competition</p>
                     <h2 class="heading-section text-3xl md:text-4xl lg:text-5xl text-white mb-6">
-                        {{ theme?.title }}
+                        {{ edition.title }}
                     </h2>
 
                     <p class="text-white/70 mb-6 leading-relaxed">
-                        {{ theme?.description }}
+                        {{ edition.description }}
                     </p>
                     <p class="text-white/70 mb-8 leading-relaxed">
-                        {{ theme?.challenge }}
+                        {{ edition.challenge }}
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-3">

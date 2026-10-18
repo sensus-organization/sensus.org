@@ -2,7 +2,6 @@
 interface Person {
     name: string;
     role?: string;
-    title?: string;
     affiliation?: string;
     image: string;
     link?: string;
@@ -11,14 +10,10 @@ interface Person {
 interface Props {
     people: Person[];
     size?: "sm" | "md" | "lg";
-    showRole?: boolean;
-    showAffiliation?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     size: "md",
-    showRole: true,
-    showAffiliation: false,
 });
 
 const maxWidth = computed(() => {
@@ -88,22 +83,13 @@ const lastRowStart = computed(() => {
                     <h3 :class="['font-bold text-sensus-gray-900 mb-1 leading-tight', textSize.name]">
                         {{ person.name }}
                     </h3>
-                    <p v-if="showRole && person.role" :class="['text-sensus-red font-semibold uppercase tracking-wider', textSize.role]">
+                    <p
+                        v-if="person.role"
+                        :class="['text-sensus-red font-semibold uppercase tracking-wider', textSize.role, person.affiliation ? 'mb-3' : '']"
+                    >
                         {{ person.role }}
                     </p>
-                    <p
-                        v-if="person.title && size !== 'sm'"
-                        :class="['text-sensus-red font-semibold uppercase tracking-wider mb-3', textSize.role]"
-                    >
-                        {{ person.title }}
-                    </p>
-                    <p v-if="showAffiliation && person.affiliation" :class="['text-sensus-gray-600 leading-tight', textSize.affiliation]">
-                        {{ person.affiliation }}
-                    </p>
-                    <p
-                        v-if="!showAffiliation && !showRole && person.affiliation && size === 'sm'"
-                        :class="['text-sensus-gray-600 leading-tight', textSize.affiliation]"
-                    >
+                    <p v-if="person.affiliation" :class="['text-sensus-gray-600 leading-tight', textSize.affiliation]">
                         {{ person.affiliation }}
                     </p>
                 </div>

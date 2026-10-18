@@ -3,7 +3,7 @@ import type { StrapiMedia } from "~/types/strapi";
 
 type QueryPrimitive = string | number | boolean;
 type QueryValue = QueryPrimitive | null | undefined | QueryObject | QueryValue[];
-interface QueryObject {
+export interface QueryObject {
     [key: string]: QueryValue;
 }
 
@@ -114,12 +114,9 @@ export const PAGE_POPULATE: QueryObject = {
             "blocks.link-list": { populate: { links: true } },
             "blocks.card-list": { populate: { cards: { populate: { image: true } } } },
             "blocks.person-grid": { populate: { title: true, people: { populate: { photo: true } } } },
-            "blocks.organization": { populate: { title: true } },
             "blocks.logo-grid": { populate: { partners: { populate: { logo: true } } } },
-            "blocks.team-grid": { populate: { title: true } },
-            "blocks.world-map": { populate: "*" },
-            "blocks.timeline": { populate: { title: true } },
-            "blocks.archive-hub": { populate: { title: true } },
+            "blocks.widget": { populate: { title: true } },
+            "blocks.timeline": { populate: { title: true, events: true } },
         },
     },
 };
@@ -135,25 +132,24 @@ export const EDITION_POPULATE: QueryObject = {
     },
 };
 
-export const MEMBERSHIP_POPULATE: QueryObject = {
-    person: { populate: { photo: true } },
-    department: { fields: ["name", "order"] },
+export const ORGANIZATION_POPULATE: QueryObject = {
+    departments: { populate: { members: { populate: { photo: true } } } },
 };
 
 export const GLOBAL_POPULATE: QueryObject = {
     navigation: { populate: { children: true } },
     socialLinks: true,
-    addresses: true,
+    visitingAddress: true,
+    shippingAddress: true,
     legalLinks: true,
     seo: true,
 };
 
 export const HOME_POPULATE: QueryObject = {
-    hero: { populate: { buttons: true, poster: true } },
+    hero: { populate: { title: true, buttons: true, poster: true } },
     about: { populate: { title: true, images: true } },
     mission: { populate: { title: true, cards: { populate: { image: true } } } },
     teamsSection: { populate: { title: true, stats: true } },
-    theme: { populate: { thumbnail: true } },
     symposium: { populate: { thumbnail: true } },
     highSchools: { populate: { images: true } },
     partners: { populate: { logo: true } },
@@ -173,8 +169,6 @@ export const NEWS_LIST_POPULATE: QueryObject = {
 export const CONTACT_POPULATE: QueryObject = {
     seo: true,
     header: { populate: { title: true } },
-    visitingAddress: true,
-    shippingAddress: true,
     bankDetails: true,
     legal: true,
 };

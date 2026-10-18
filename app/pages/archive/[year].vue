@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import type { Edition, Team } from "~/types/strapi";
-import type { MembershipGroup } from "~/composables/useMemberships";
+import type { Department, Edition, Global, Organization, Team } from "~/types/strapi";
 
 const route = useRoute();
-const year = computed(() => Number(route.params.year));
+const year = computed(() => (/^\d{4}$/.test(String(route.params.year)) ? Number(route.params.year) : NaN));
+const global = useState<Global | null>("global", () => null);
+
+// Next year's edition can already be published (e.g. for its organization) but isn't archive material yet.
+if (!Number.isInteger(year.value) || !global.value?.currentYear || year.value > global.value.currentYear) {
+    throw createError({ statusCode: 404, statusMessage: "Edition Not Found", fatal: true });
+}
 
 const { data: edition } = await useAsyncData(`edition:${year.value}`, () =>
     strapiFetch<Edition[]>("editions", {
@@ -31,12 +36,19 @@ const { data: teams } = await useAsyncData(`edition-teams:${year.value}`, () =>
 const teamList = computed(() => teams.value || []);
 const teamsHaveImages = computed(() => teamList.value.some((team) => strapiMedia(team.image)));
 
-const { data: membershipGroups } = await useMembershipsByYear(year);
+const { data: organization } = await useAsyncData(`organization:${year.value}`, () =>
+    strapiFetch<Organization[]>("organizations", {
+        filters: { year: { $eq: year.value } },
+        populate: ORGANIZATION_POPULATE,
+        pagination: { pageSize: 1 },
+    }),
+);
 
-const orgGroups = computed(() => (membershipGroups.value || []).filter((group) => group.people.length));
+const organizationData = computed(() => organization.value?.[0] ?? null);
+const orgGroups = computed(() => (organizationData.value?.departments || []).filter((group) => group.members?.length));
 
-const mappedMembers = (people: MembershipGroup["people"]) =>
-    people.map((person) => ({
+const mappedMembers = (group: Department) =>
+    (group.members || []).map((person) => ({
         name: person.name,
         role: person.role || undefined,
         image: strapiMedia(person.photo),
@@ -99,7 +111,7 @@ useSeoMeta({
             </div>
         </section>
 
-        <section v-if="editionData.results?.length" class="py-16 md:py-24 bg-sensus-gray-50">
+        <section v-if="hasResults(editionData)" class="py-16 md:py-24 bg-sensus-gray-50">
             <div class="max-w-7xl mx-auto px-6">
                 <BaseSectionHeader :title="{ text: 'Results', highlight: 'Results' }" />
                 <BaseResultsTable :results="editionData.results" :year="year" />
@@ -176,24 +188,21 @@ useSeoMeta({
         </section>
 
         <section
-            v-if="editionData.orgIntro || orgGroups.length"
+            v-if="orgGroups.length"
             id="organization"
             class="py-16 md:py-24 bg-sensus-gray-50 scroll-mt-24"
         >
             <div class="max-w-7xl mx-auto px-6">
                 <BaseSectionHeader :title="{ text: 'The Organization', highlight: 'Organization' }" />
-                <p v-if="editionData.orgIntro" class="text-lg text-sensus-gray-600 max-w-3xl mx-auto text-center mb-12 leading-relaxed">
-                    {{ editionData.orgIntro }}
-                </p>
                 <div class="space-y-12">
-                    <div v-for="group in orgGroups" :key="group.name ?? 'ungrouped'">
+                    <div v-for="(group, index) in orgGroups" :key="group.id ?? index">
                         <h3
                             v-if="group.name"
                             class="heading-section text-xl md:text-2xl text-sensus-gray-900 text-center mb-8"
                         >
                             {{ group.name }}
                         </h3>
-                        <BasePersonGrid :people="mappedMembers(group.people)" size="sm" />
+                        <BasePersonGrid :people="mappedMembers(group)" size="sm" />
                     </div>
                 </div>
             </div>
